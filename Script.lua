@@ -1,24 +1,24 @@
 --[[
 ╔═══════════════════════════════════════════════════════════════════════════════════════════════════════════╗
-║                    🔥 ULTIMATE AI-POWERED RSPY V3.0 🔥                                                   ║
-║                      💎 WORLD-CLASS REVERSE ENGINEERING 💎                                               ║
+║                    🔥 ULTIMATE LOCAL RSPY V3.5 - NO HTTP NEEDED! 🔥                                     ║
+║                      💎 CLIENT-FRIENDLY REVERSE ENGINEERING 💎                                           ║
 ╠═══════════════════════════════════════════════════════════════════════════════════════════════════════════╣
-║ 🚀 NEXT-GEN FEATURES:                                                                                    ║
-║ • 🤖 Real-time AI DEX Analysis & Chat                                                                    ║
-║ • 🧠 Intelligent Script Reading & Decompilation                                                          ║
-║ • 📡 Advanced Memory & Bytecode Analysis                                                                 ║
-║ • 🎯 Smart Logging with AI-Relevance Detection                                                           ║
-║ • ⚡ Ultra-Performance Optimized                                                                          ║
-║ • 🔍 Deep Script Source Code Extraction                                                                  ║
-║ • 🛡️ Advanced Stealth & Bypass Systems                                                                   ║
-║ • 📊 Real-time Vulnerability Analysis                                                                    ║
+║ 🚀 LOKALE FEATURES (KEIN HTTPSERVICE NÖTIG):                                                             ║
+║ • 🧠 Local AI-Style Analysis & Pattern Recognition                                                       ║
+║ • 🔍 Advanced Script Decompilation & Analysis                                                            ║
+║ • 📊 Real-time Local Vulnerability Detection                                                             ║
+║ • 🎯 Smart Local Logging with Intelligence                                                               ║
+║ • 📈 Live Local Dashboard & Statistics                                                                   ║
+║ • 💾 Local Data Export & Analysis                                                                        ║
+║ • 🛡️ Zero Network Dependencies                                                                           ║
+║ • ⚡ Ultra-Fast Local Processing                                                                          ║
 ║ • 🎮 Complete Game State Monitoring                                                                      ║
-║ • 💬 Smooth Terminal AI Chat Interface                                                                   ║
+║ • 🔧 Advanced Local Chat Commands                                                                        ║
 ╚═══════════════════════════════════════════════════════════════════════════════════════════════════════════╝
 --]]
 
 -- ═══════════════════════════════════════════════════════════════════════════════════════════════════════════
--- 🛡️ ULTRA-STEALTH INITIALIZATION
+-- 🛡️ ULTRA-STEALTH LOCAL INITIALIZATION
 -- ═══════════════════════════════════════════════════════════════════════════════════════════════════════════
 
 local function s(n) return game:GetService(n) end
@@ -34,278 +34,435 @@ local Services = setmetatable({}, {
 })
 
 local Players, ReplicatedStorage, StarterGui, RunService = Services.Players, Services.ReplicatedStorage, Services.StarterGui, Services.RunService
-local UserInputService, HttpService, ProximityPromptService = Services.UserInputService, Services.HttpService, Services.ProximityPromptService
+local UserInputService, ProximityPromptService = Services.UserInputService, Services.ProximityPromptService
 local Player = Players.LocalPlayer
 local PlayerGui = Player:WaitForChild("PlayerGui")
 
 -- ═══════════════════════════════════════════════════════════════════════════════════════════════════════════
--- 🧠 INTELLIGENT AI-POWERED LOGGING SYSTEM
+-- 🧠 LOCAL AI-STYLE INTELLIGENCE SYSTEM
 -- ═══════════════════════════════════════════════════════════════════════════════════════════════════════════
 
-local SmartLogger = {
+local LocalAI = {
+    PatternDatabase = {
+        -- Exploitable Remote Patterns
+        exploit_remotes = {
+            "money", "cash", "coin", "gold", "gem", "diamond", "currency",
+            "teleport", "tp", "position", "cframe",
+            "speed", "walkspeed", "jumppower", "jump",
+            "health", "hp", "damage", "hurt", "heal",
+            "admin", "mod", "owner", "kick", "ban",
+            "god", "godmode", "invincible", "immortal",
+            "fly", "flight", "noclip", "clip",
+            "level", "exp", "experience", "rank", "score"
+        },
+        
+        -- Vulnerable Script Patterns
+        script_patterns = {
+            {pattern = "RemoteEvent:FireServer", risk = "HIGH", desc = "Remote execution point"},
+            {pattern = "RemoteFunction:InvokeServer", risk = "HIGH", desc = "Remote function call"},
+            {pattern = "_G%[", risk = "MEDIUM", desc = "Global variable access"},
+            {pattern = "loadstring", risk = "CRITICAL", desc = "Dynamic code execution"},
+            {pattern = "getfenv", risk = "HIGH", desc = "Environment manipulation"},
+            {pattern = "HttpService", risk = "MEDIUM", desc = "HTTP requests detected"},
+            {pattern = "game%.Players%.LocalPlayer%.UserId", risk = "LOW", desc = "User ID exposure"},
+            {pattern = "workspace%.CurrentCamera", risk = "LOW", desc = "Camera manipulation"}
+        },
+        
+        -- GUI Exploitation Patterns
+        gui_patterns = {
+            "shop", "store", "buy", "purchase", "trade",
+            "inventory", "backpack", "items", "weapons",
+            "settings", "config", "menu", "panel",
+            "admin", "mod", "developer", "dev"
+        }
+    },
+    
+    AnalysisResults = {
+        vulnerabilities = {},
+        exploitable_remotes = {},
+        interesting_scripts = {},
+        gui_targets = {},
+        patterns_found = {}
+    }
+}
+
+function LocalAI:AnalyzeRemote(remote_data)
+    local name = remote_data.name:lower()
+    local risk_score = 0
+    local exploit_methods = {}
+    local description = "Standard remote"
+    
+    -- Check exploit patterns
+    for _, pattern in ipairs(self.PatternDatabase.exploit_remotes) do
+        if name:find(pattern) then
+            risk_score = risk_score + 10
+            table.insert(exploit_methods, "Pattern: " .. pattern)
+            description = "POTENTIALLY EXPLOITABLE - " .. pattern .. " related"
+        end
+    end
+    
+    -- Analyze arguments if provided
+    if remote_data.args and #remote_data.args > 0 then
+        risk_score = risk_score + 5
+        table.insert(exploit_methods, "Has arguments - manipulation possible")
+    end
+    
+    -- Check parent context
+    local parent = (remote_data.parent or ""):lower()
+    if parent:find("shop") or parent:find("money") or parent:find("admin") then
+        risk_score = risk_score + 15
+        description = "HIGH RISK - Critical system remote"
+    end
+    
+    local risk_level = risk_score >= 20 and "CRITICAL" or 
+                      risk_score >= 10 and "HIGH" or 
+                      risk_score >= 5 and "MEDIUM" or "LOW"
+    
+    local analysis = {
+        name = remote_data.name,
+        risk_level = risk_level,
+        risk_score = risk_score,
+        description = description,
+        exploit_methods = exploit_methods,
+        timestamp = tick()
+    }
+    
+    if risk_score >= 10 then
+        table.insert(self.AnalysisResults.exploitable_remotes, analysis)
+        table.insert(self.AnalysisResults.vulnerabilities, {
+            type = "Exploitable Remote",
+            target = remote_data.name,
+            severity = risk_level,
+            details = description,
+            timestamp = tick()
+        })
+    end
+    
+    return analysis
+end
+
+function LocalAI:AnalyzeScript(script_data)
+    local source = script_data.source or ""
+    local name = script_data.name
+    local vulnerabilities = {}
+    local interesting_patterns = {}
+    
+    -- Pattern analysis
+    for _, pattern_data in ipairs(self.PatternDatabase.script_patterns) do
+        local matches = {}
+        local pattern = pattern_data.pattern
+        
+        -- Find all matches
+        for match in source:gmatch(pattern) do
+            table.insert(matches, match)
+        end
+        
+        if #matches > 0 then
+            table.insert(vulnerabilities, {
+                pattern = pattern,
+                risk = pattern_data.risk,
+                description = pattern_data.desc,
+                matches = #matches,
+                examples = {matches[1], matches[2], matches[3]} -- First 3 matches
+            })
+            
+            table.insert(interesting_patterns, pattern_data.desc)
+        end
+    end
+    
+    -- Script size analysis
+    local size_analysis = ""
+    if #source > 10000 then
+        size_analysis = "LARGE SCRIPT - Likely contains complex logic"
+    elseif #source > 1000 then
+        size_analysis = "MEDIUM SCRIPT - May contain interesting features"
+    else
+        size_analysis = "SMALL SCRIPT - Basic functionality"
+    end
+    
+    local analysis = {
+        name = name,
+        type = script_data.type,
+        size = #source,
+        size_analysis = size_analysis,
+        vulnerabilities = vulnerabilities,
+        patterns = interesting_patterns,
+        risk_score = #vulnerabilities * 5,
+        timestamp = tick()
+    }
+    
+    if #vulnerabilities > 0 then
+        table.insert(self.AnalysisResults.interesting_scripts, analysis)
+    end
+    
+    return analysis
+end
+
+function LocalAI:AnalyzeGUI(gui_data)
+    local name = gui_data.name:lower()
+    local interest_score = 0
+    local potential_exploits = {}
+    
+    for _, pattern in ipairs(self.PatternDatabase.gui_patterns) do
+        if name:find(pattern) then
+            interest_score = interest_score + 10
+            table.insert(potential_exploits, "GUI Type: " .. pattern)
+        end
+    end
+    
+    if interest_score >= 10 then
+        local analysis = {
+            name = gui_data.name,
+            interest_score = interest_score,
+            potential_exploits = potential_exploits,
+            timestamp = tick()
+        }
+        
+        table.insert(self.AnalysisResults.gui_targets, analysis)
+        return analysis
+    end
+    
+    return nil
+end
+
+function LocalAI:GenerateReport()
+    local report = {
+        "🧠 LOCAL AI ANALYSIS REPORT",
+        "═══════════════════════════════════",
+        ""
+    }
+    
+    -- Vulnerability Summary
+    table.insert(report, string.format("📊 VULNERABILITIES FOUND: %d", #self.AnalysisResults.vulnerabilities))
+    table.insert(report, string.format("🎯 EXPLOITABLE REMOTES: %d", #self.AnalysisResults.exploitable_remotes))
+    table.insert(report, string.format("📜 INTERESTING SCRIPTS: %d", #self.AnalysisResults.interesting_scripts))
+    table.insert(report, string.format("🖼️ GUI TARGETS: %d", #self.AnalysisResults.gui_targets))
+    table.insert(report, "")
+    
+    -- Top Vulnerabilities
+    if #self.AnalysisResults.vulnerabilities > 0 then
+        table.insert(report, "🔥 TOP VULNERABILITIES:")
+        for i, vuln in ipairs(self.AnalysisResults.vulnerabilities) do
+            if i <= 5 then -- Top 5
+                table.insert(report, string.format("  %d. [%s] %s: %s", i, vuln.severity, vuln.type, vuln.details))
+            end
+        end
+        table.insert(report, "")
+    end
+    
+    -- Top Exploitable Remotes
+    if #self.AnalysisResults.exploitable_remotes > 0 then
+        table.insert(report, "🎯 TOP EXPLOITABLE REMOTES:")
+        for i, remote in ipairs(self.AnalysisResults.exploitable_remotes) do
+            if i <= 5 then -- Top 5
+                table.insert(report, string.format("  %d. [%s] %s - %s", i, remote.risk_level, remote.name, remote.description))
+            end
+        end
+        table.insert(report, "")
+    end
+    
+    return table.concat(report, "\n")
+end
+
+-- ═══════════════════════════════════════════════════════════════════════════════════════════════════════════
+-- 🎯 ENHANCED LOCAL LOGGING SYSTEM
+-- ═══════════════════════════════════════════════════════════════════════════════════════════════════════════
+
+local LocalLogger = {
     Levels = {
         CRITICAL = {priority = 5, color = "\27[41m", icon = "🔥"},
         HIGH = {priority = 4, color = "\27[91m", icon = "⚡"},
         MEDIUM = {priority = 3, color = "\27[93m", icon = "💡"},
         LOW = {priority = 2, color = "\27[96m", icon = "📌"},
-        DEBUG = {priority = 1, color = "\27[90m", icon = "🔍"}
+        SUCCESS = {priority = 4, color = "\27[92m", icon = "✅"},
+        INFO = {priority = 3, color = "\27[97m", icon = "ℹ️"}
     },
-    AIRelevant = {},
-    SilentMode = false,
-    LastFlush = tick()
+    LogHistory = {},
+    Stats = {
+        scripts_found = 0,
+        remotes_found = 0,
+        guis_tracked = 0,
+        vulnerabilities = 0,
+        start_time = tick()
+    }
 }
 
-function SmartLogger:Log(level, category, message, data)
-    local levelInfo = self.Levels[level] or self.Levels.LOW
+function LocalLogger:Log(level, category, message, data)
+    local levelInfo = self.Levels[level] or self.Levels.INFO
     
-    -- AI Relevance Detection
-    local isAIRelevant = self:IsAIRelevant(category, message, data)
+    -- Only log MEDIUM priority and above for cleaner output
+    if levelInfo.priority < 3 then return end
     
-    -- Only log HIGH priority and above, or AI relevant items
-    if levelInfo.priority < 3 and not isAIRelevant and not self.SilentMode then
-        return
+    local timestamp = os.date("%H:%M:%S")
+    local formatted = string.format("%s[%s] %s %s: %s\27[0m", 
+        levelInfo.color, timestamp, levelInfo.icon, category, message)
+    
+    print(formatted)
+    
+    -- Store in history
+    table.insert(self.LogHistory, {
+        level = level,
+        category = category,
+        message = message,
+        timestamp = tick(),
+        data = data
+    })
+    
+    -- Keep only last 100 logs
+    if #self.LogHistory > 100 then
+        table.remove(self.LogHistory, 1)
     end
+end
+
+function LocalLogger:ShowDashboard()
+    local uptime = tick() - self.Stats.start_time
+    local minutes = math.floor(uptime / 60)
+    local seconds = math.floor(uptime % 60)
     
-    if isAIRelevant then
-        table.insert(self.AIRelevant, {
-            level = level,
-            category = category, 
-            message = message,
-            data = data,
-            timestamp = tick()
-        })
-    end
+    print("\n" .. self.Levels.SUCCESS.color .. "╔══════════════════════════════════════════════════════════════════════════════╗" .. "\27[0m")
+    print(self.Levels.SUCCESS.color .. "║                    📊 ULTIMATE LOCAL RSPY DASHBOARD                         ║" .. "\27[0m")
+    print(self.Levels.SUCCESS.color .. "╠══════════════════════════════════════════════════════════════════════════════╣" .. "\27[0m")
+    print(string.format("%s║ ⏱️  Uptime: %dm %02ds                  🎮 Game: %s%s║%s", 
+        self.Levels.INFO.color, minutes, seconds, 
+        string.sub(game.Name or "Unknown", 1, 20),
+        string.rep(" ", 22 - math.min(#(game.Name or "Unknown"), 20)),
+        "\27[0m"))
+    print(string.format("%s║ 📜 Scripts Found: %d                   🎯 Remotes Found: %d%s║%s", 
+        self.Levels.INFO.color, self.Stats.scripts_found, self.Stats.remotes_found,
+        string.rep(" ", 10 - #tostring(self.Stats.remotes_found)),
+        "\27[0m"))
+    print(string.format("%s║ 🖼️  GUIs Tracked: %d                   🔥 Vulnerabilities: %d%s║%s", 
+        self.Levels.INFO.color, self.Stats.guis_tracked, self.Stats.vulnerabilities,
+        string.rep(" ", 8 - #tostring(self.Stats.vulnerabilities)),
+        "\27[0m"))
+    print(self.Levels.SUCCESS.color .. "╚══════════════════════════════════════════════════════════════════════════════╝" .. "\27[0m")
     
-    -- Optimized console output
-    if levelInfo.priority >= 3 then
-        local timestamp = os.date("%H:%M:%S")
-        print(string.format("%s[%s] %s %s: %s\27[0m", 
-            levelInfo.color, timestamp, levelInfo.icon, category, message))
+    -- Show AI Analysis Summary
+    local ai_report = LocalAI:GenerateReport()
+    print("\n" .. self.Levels.MEDIUM.color .. ai_report .. "\27[0m")
+end
+
+-- ═══════════════════════════════════════════════════════════════════════════════════════════════════════════
+-- 🕵️ ADVANCED REMOTE MONITORING
+-- ═══════════════════════════════════════════════════════════════════════════════════════════════════════════
+
+local RemoteHunter = {
+    TrackedRemotes = {},
+    RemoteStats = {}
+}
+
+function RemoteHunter:Initialize()
+    LocalLogger:Log("HIGH", "REMOTE_INIT", "🕵️ Initializing Local Remote Hunter...")
+    
+    self:HookRemoteEvents()
+    self:ScanExistingRemotes()
+end
+
+function RemoteHunter:HookRemoteEvents()
+    local oldNamecall
+    oldNamecall = hookmetamethod(game, "__namecall", function(self, ...)
+        local method = getnamecallmethod()
+        local args = {...}
         
-        if data and levelInfo.priority >= 4 then
-            self:PrintData(data, " ")
-        end
-    end
-end
-
-function SmartLogger:IsAIRelevant(category, message, data)
-    local relevantCategories = {
-        ["EXPLOIT"] = true, ["VULNERABILITY"] = true, ["REMOTE"] = true,
-        ["SCRIPT_FOUND"] = true, ["DEX_CHANGE"] = true, ["BYPASS"] = true
-    }
-    
-    local relevantKeywords = {
-        "RemoteEvent", "RemoteFunction", "ModuleScript", "LocalScript",
-        "exploit", "bypass", "vulnerability", "hack", "cheat"
-    }
-    
-    if relevantCategories[category] then return true end
-    
-    local lowerMessage = message:lower()
-    for _, keyword in ipairs(relevantKeywords) do
-        if lowerMessage:find(keyword:lower()) then return true end
-    end
-    
-    return false
-end
-
-function SmartLogger:PrintData(data, indent, maxDepth)
-    indent = indent or ""
-    maxDepth = maxDepth or 2
-    if maxDepth <= 0 then return end
-    
-    if type(data) == "table" then
-        for k, v in pairs(data) do
-            if type(v) == "table" then
-                print(indent .. tostring(k) .. ":")
-                self:PrintData(v, indent .. "  ", maxDepth - 1)
+        if method == "FireServer" and self:IsA("RemoteEvent") then
+            local remoteData = {
+                name = self.Name,
+                parent = self.Parent and self.Parent.Name or "Unknown",
+                args = args,
+                timestamp = tick(),
+                type = "RemoteEvent",
+                path = self:GetFullName()
+            }
+            
+            -- Local AI analysis
+            local analysis = LocalAI:AnalyzeRemote(remoteData)
+            
+            if analysis.risk_score >= 10 then
+                LocalLogger:Log("CRITICAL", "EXPLOIT_REMOTE", 
+                    string.format("🎯 %s (%s)", self.Name, analysis.risk_level))
             else
-                print(indent .. tostring(k) .. ": " .. tostring(v))
+                LocalLogger:Log("MEDIUM", "REMOTE", 
+                    string.format("📡 %s fired", self.Name))
+            end
+            
+        elseif method == "InvokeServer" and self:IsA("RemoteFunction") then
+            local remoteData = {
+                name = self.Name,
+                parent = self.Parent and self.Parent.Name or "Unknown",
+                args = args,
+                timestamp = tick(),
+                type = "RemoteFunction",
+                path = self:GetFullName()
+            }
+            
+            local analysis = LocalAI:AnalyzeRemote(remoteData)
+            
+            if analysis.risk_score >= 10 then
+                LocalLogger:Log("CRITICAL", "EXPLOIT_REMOTE", 
+                    string.format("🔧 %s (%s)", self.Name, analysis.risk_level))
+            else
+                LocalLogger:Log("MEDIUM", "REMOTE", 
+                    string.format("🔧 %s invoked", self.Name))
             end
         end
-    end
-end
-
-function SmartLogger:FlushToAI()
-    if #self.AIRelevant > 0 and AICore and AICore.SendBulkData then
-        AICore:SendBulkData("recent_logs", self.AIRelevant)
-        self.AIRelevant = {}
-        self.LastFlush = tick()
-    end
-end
-
--- ═══════════════════════════════════════════════════════════════════════════════════════════════════════════
--- 🤖 ADVANCED AI CORE SYSTEM
--- ═══════════════════════════════════════════════════════════════════════════════════════════════════════════
-
-local AICore = {
-    Endpoint = "http://192.168.2.97:5001",
-    Enabled = true,
-    ConnectionStatus = false,
-    DEXSnapshot = {},
-    ScriptCache = {},
-    LastHealthCheck = 0,
-    RequestQueue = {},
-    ProcessingQueue = false,
-    ChatMode = false
-}
-
-function AICore:Initialize()
-    SmartLogger:Log("HIGH", "AI_INIT", "🤖 Initializing AI Core...")
-    
-    self:HealthCheck()
-    self:StartDEXMonitoring()
-    self:StartScriptHunter()
-    self:StartQueueProcessor()
-    
-    SmartLogger:Log("CRITICAL", "AI_READY", "🔥 AI Core fully initialized and ready!")
-end
-
-function AICore:HealthCheck()
-    if not HttpService.HttpEnabled then
-        SmartLogger:Log("CRITICAL", "AI_ERROR", "❌ HttpService disabled! AI cannot function!")
-        return false
-    end
-    
-    spawn(function()
-        local success, result = pcall(function()
-            return HttpService:GetAsync(self.Endpoint .. "/health")
-        end)
         
-        if success then
-            local data = HttpService:JSONDecode(result)
-            self.ConnectionStatus = true
-            SmartLogger:Log("CRITICAL", "AI_CONNECTED", 
-                string.format("✅ AI Connected! Model: %s", data.current_model or "Unknown"))
-        else
-            self.ConnectionStatus = false
-            SmartLogger:Log("HIGH", "AI_ERROR", "❌ AI Connection failed: " .. tostring(result))
-        end
-        
-        self.LastHealthCheck = tick()
+        return oldNamecall(self, ...)
     end)
 end
 
-function AICore:QueueRequest(endpoint, data, priority)
-    priority = priority or 3
-    table.insert(self.RequestQueue, {
-        endpoint = endpoint,
-        data = data,
-        priority = priority,
-        timestamp = tick()
-    })
-end
-
-function AICore:StartQueueProcessor()
+function RemoteHunter:ScanExistingRemotes()
     spawn(function()
         while true do
-            wait(0.5)
-            if not self.ProcessingQueue and #self.RequestQueue > 0 then
-                self.ProcessingQueue = true
-                
-                -- Sort by priority (highest first)
-                table.sort(self.RequestQueue, function(a, b) return a.priority > b.priority end)
-                
-                local request = table.remove(self.RequestQueue, 1)
-                if request then
-                    spawn(function()
-                        self:SendHTTPRequest(request.endpoint, request.data)
-                    end)
-                end
-                
-                self.ProcessingQueue = false
-            end
-        end
-    end)
-end
-
-function AICore:SendHTTPRequest(endpoint, data)
-    if not self.ConnectionStatus then return end
-    
-    local success, result = pcall(function()
-        return HttpService:PostAsync(
-            self.Endpoint .. "/" .. endpoint,
-            HttpService:JSONEncode(data),
-            Enum.HttpContentType.ApplicationJson
-        )
-    end)
-    
-    if not success then
-        SmartLogger:Log("MEDIUM", "AI_ERROR", "Request failed: " .. tostring(result))
-    end
-end
-
-function AICore:SendBulkData(dataType, data)
-    self:QueueRequest("bulk_update", {
-        type = dataType,
-        data = data,
-        timestamp = tick(),
-        player = Player.Name,
-        game_id = game.GameId
-    }, 4)
-end
-
-function AICore:StartDEXMonitoring()
-    spawn(function()
-        while self.Enabled do
-            wait(20) -- Every 20 seconds
+            wait(30) -- Every 30 seconds
             
-            local dexData = self:CaptureDEXSnapshot()
-            if dexData then
-                self:QueueRequest("analyze_dex", dexData, 3)
+            local newRemotes = 0
+            for _, container in ipairs({ReplicatedStorage, workspace}) do
+                for _, obj in ipairs(container:GetDescendants()) do
+                    if (obj:IsA("RemoteEvent") or obj:IsA("RemoteFunction")) and not self.TrackedRemotes[obj] then
+                        newRemotes = newRemotes + 1
+                        self.TrackedRemotes[obj] = {
+                            name = obj.Name,
+                            type = obj.ClassName,
+                            parent = obj.Parent and obj.Parent.Name or "Unknown",
+                            path = obj:GetFullName(),
+                            discovered_at = tick()
+                        }
+                        
+                        -- Immediate local analysis
+                        local analysis = LocalAI:AnalyzeRemote({
+                            name = obj.Name,
+                            type = obj.ClassName,
+                            parent = obj.Parent and obj.Parent.Name or "Unknown"
+                        })
+                        
+                        LocalLogger.Stats.remotes_found = LocalLogger.Stats.remotes_found + 1
+                    end
+                end
+            end
+            
+            if newRemotes > 0 then
+                LocalLogger:Log("HIGH", "REMOTE_DISCOVERY", 
+                    string.format("🎯 %d new remotes discovered", newRemotes))
             end
         end
     end)
 end
 
-function AICore:CaptureDEXSnapshot()
-    local snapshot = {
-        workspace = self:AnalyzeContainer(workspace, 2),
-        replicatedStorage = self:AnalyzeContainer(ReplicatedStorage, 2),
-        players = self:AnalyzeContainer(Players, 1),
-        timestamp = tick()
-    }
+-- ═══════════════════════════════════════════════════════════════════════════════════════════════════════════
+-- 🔍 ADVANCED LOCAL SCRIPT HUNTER
+-- ═══════════════════════════════════════════════════════════════════════════════════════════════════════════
+
+local ScriptHunter = {
+    TrackedScripts = {}
+}
+
+function ScriptHunter:Initialize()
+    LocalLogger:Log("HIGH", "SCRIPT_INIT", "🔍 Starting Local Script Hunter...")
     
-    return snapshot
+    self:StartScriptHunting()
 end
 
-function AICore:AnalyzeContainer(container, maxDepth, currentDepth)
-    currentDepth = currentDepth or 0
-    if currentDepth >= maxDepth then return nil end
-    
-    local data = {
-        name = container.Name,
-        className = container.ClassName,
-        children = {},
-        scripts = {}
-    }
-    
-    for _, child in ipairs(container:GetChildren()) do
-        if child:IsA("LuaSourceContainer") then
-            local source = self:GetScriptSource(child)
-            if source and #source > 20 then
-                table.insert(data.scripts, {
-                    name = child.Name,
-                    type = child.ClassName,
-                    source = source:sub(1, 1000), -- Truncate for performance
-                    size = #source
-                })
-                
-                SmartLogger:Log("HIGH", "SCRIPT_FOUND", 
-                    string.format("📜 %s: %s (%d chars)", child.ClassName, child.Name, #source))
-            end
-        elseif currentDepth < maxDepth - 1 then
-            local childData = self:AnalyzeContainer(child, maxDepth, currentDepth + 1)
-            if childData then
-                data.children[child.Name] = childData
-            end
-        end
-    end
-    
-    return data
-end
-
-function AICore:GetScriptSource(script)
+function ScriptHunter:GetScriptSource(script)
     if not script or not script:IsA("LuaSourceContainer") then return nil end
     
     local success, source = pcall(function()
@@ -327,316 +484,259 @@ function AICore:GetScriptSource(script)
     return success and source or nil
 end
 
-function AICore:StartScriptHunter()
+function ScriptHunter:StartScriptHunting()
     spawn(function()
-        while self.Enabled do
-            wait(30) -- Every 30 seconds
+        while true do
+            wait(25) -- Every 25 seconds
             
-            local scripts = {}
-            for _, container in ipairs({workspace, ReplicatedStorage}) do
+            local newScripts = 0
+            for _, container in ipairs({workspace, ReplicatedStorage, PlayerGui}) do
                 for _, obj in ipairs(container:GetDescendants()) do
-                    if obj:IsA("LuaSourceContainer") then
+                    if obj:IsA("LuaSourceContainer") and not self.TrackedScripts[obj] then
                         local source = self:GetScriptSource(obj)
-                        if source and #source > 50 and not self.ScriptCache[obj] then
-                            table.insert(scripts, {
+                        if source and #source > 50 then -- Ignore tiny scripts
+                            newScripts = newScripts + 1
+                            
+                            local scriptData = {
                                 name = obj.Name,
                                 type = obj.ClassName,
                                 parent = obj.Parent and obj.Parent.Name or "Unknown",
                                 source = source,
+                                size = #source,
                                 path = obj:GetFullName()
-                            })
+                            }
                             
-                            self.ScriptCache[obj] = true
+                            self.TrackedScripts[obj] = scriptData
+                            
+                            -- Local AI analysis
+                            local analysis = LocalAI:AnalyzeScript(scriptData)
+                            
+                            if analysis.risk_score >= 15 then
+                                LocalLogger:Log("CRITICAL", "VULN_SCRIPT", 
+                                    string.format("🔥 %s (%d chars, %d vulns)", 
+                                    obj.Name, #source, #analysis.vulnerabilities))
+                                LocalLogger.Stats.vulnerabilities = LocalLogger.Stats.vulnerabilities + 1
+                            else
+                                LocalLogger:Log("HIGH", "SCRIPT_FOUND", 
+                                    string.format("📜 %s: %s (%d chars)", 
+                                    obj.ClassName, obj.Name, #source))
+                            end
+                            
+                            LocalLogger.Stats.scripts_found = LocalLogger.Stats.scripts_found + 1
                         end
                     end
                 end
             end
             
-            if #scripts > 0 then
-                SmartLogger:Log("HIGH", "SCRIPT_HUNT", string.format("🎣 Found %d new scripts", #scripts))
-                self:QueueRequest("analyze_scripts", {scripts = scripts}, 4)
+            if newScripts > 0 then
+                LocalLogger:Log("SUCCESS", "SCRIPT_HUNT", 
+                    string.format("📚 %d new scripts analyzed", newScripts))
             end
         end
     end)
 end
 
 -- ═══════════════════════════════════════════════════════════════════════════════════════════════════════════
--- 🕵️ ULTRA-ADVANCED REMOTE MONITORING
+-- 🎯 GUI MONITORING SYSTEM
 -- ═══════════════════════════════════════════════════════════════════════════════════════════════════════════
 
-local RemoteHunter = {
-    HookedRemotes = {},
-    RemoteData = {}
+local GUIMonitor = {
+    TrackedGUIs = {}
 }
 
-function RemoteHunter:Initialize()
-    SmartLogger:Log("HIGH", "REMOTE_INIT", "🕵️ Initializing Remote Hunter...")
+function GUIMonitor:Initialize()
+    LocalLogger:Log("MEDIUM", "GUI_INIT", "🎯 Starting GUI monitoring...")
     
-    self:HookRemoteEvents()
-    self:ScanExistingRemotes()
-end
-
-function RemoteHunter:HookRemoteEvents()
-    local oldNamecall
-    oldNamecall = hookmetamethod(game, "__namecall", function(self, ...)
-        local method = getnamecallmethod()
-        local args = {...}
-        
-        if method == "FireServer" and self:IsA("RemoteEvent") then
-            local remoteData = {
-                name = self.Name,
-                parent = self.Parent and self.Parent.Name or "Unknown",
-                args = #args > 0 and args or {},
-                timestamp = tick(),
-                type = "RemoteEvent",
-                path = self:GetFullName()
-            }
-            
-            SmartLogger:Log("CRITICAL", "REMOTE", 
-                string.format("🚀 %s fired", self.Name), remoteData)
-            
-            AICore:QueueRequest("analyze_remote", remoteData, 5)
-            
-        elseif method == "InvokeServer" and self:IsA("RemoteFunction") then
-            local remoteData = {
-                name = self.Name,
-                parent = self.Parent and self.Parent.Name or "Unknown",
-                args = #args > 0 and args or {},
-                timestamp = tick(),
-                type = "RemoteFunction",
-                path = self:GetFullName()
-            }
-            
-            SmartLogger:Log("CRITICAL", "REMOTE", 
-                string.format("🔧 %s invoked", self.Name), remoteData)
-            
-            AICore:QueueRequest("analyze_remote", remoteData, 5)
-        end
-        
-        return oldNamecall(self, ...)
-    end)
-end
-
-function RemoteHunter:ScanExistingRemotes()
-    spawn(function()
-        while AICore.Enabled do
-            wait(25)
-            
-            local remotes = {}
-            for _, container in ipairs({ReplicatedStorage, workspace}) do
-                for _, obj in ipairs(container:GetDescendants()) do
-                    if (obj:IsA("RemoteEvent") or obj:IsA("RemoteFunction")) and not self.HookedRemotes[obj] then
-                        table.insert(remotes, {
-                            name = obj.Name,
-                            type = obj.ClassName,
-                            parent = obj.Parent and obj.Parent.Name or "Unknown",
-                            path = obj:GetFullName()
-                        })
-                        
-                        self.HookedRemotes[obj] = true
-                    end
-                end
-            end
-            
-            if #remotes > 0 then
-                SmartLogger:Log("HIGH", "REMOTE_DISCOVERY", 
-                    string.format("🎯 Found %d new remotes", #remotes))
-                AICore:SendBulkData("remote_discovery", remotes)
-            end
-        end
-    end)
-end
-
--- ═══════════════════════════════════════════════════════════════════════════════════════════════════════════
--- 🎯 SMART PROXIMITY & INTERACTION SYSTEM
--- ═══════════════════════════════════════════════════════════════════════════════════════════════════════════
-
-local InteractionSystem = {
-    ProximityPrompts = {},
-    TrackedGUIs = {},
-    LastGUICheck = 0
-}
-
-function InteractionSystem:Initialize()
-    SmartLogger:Log("MEDIUM", "INTERACTION", "🎯 Starting interaction monitoring...")
-    
-    -- Monitor ProximityPrompts
-    ProximityPromptService.PromptShown:Connect(function(prompt, inputType)
-        SmartLogger:Log("HIGH", "PROXIMITY", 
-            string.format("📍 %s shown", prompt.ObjectText or "Prompt"))
-        
-        AICore:QueueRequest("report_interaction", {
-            type = "proximity_shown",
-            prompt = prompt.ObjectText or "Unknown",
-            parent = prompt.Parent and prompt.Parent.Name or "Unknown"
-        }, 3)
-    end)
-    
-    ProximityPromptService.PromptHidden:Connect(function(prompt, inputType)
-        AICore:QueueRequest("report_interaction", {
-            type = "proximity_hidden",
-            prompt = prompt.ObjectText or "Unknown"
-        }, 2)
-    end)
-    
-    -- Monitor GUI changes efficiently
     self:StartGUIMonitoring()
+    
+    -- Monitor ProximityPrompts if available
+    if ProximityPromptService then
+        ProximityPromptService.PromptShown:Connect(function(prompt, inputType)
+            LocalLogger:Log("HIGH", "PROXIMITY", 
+                string.format("📍 %s shown", prompt.ObjectText or "Prompt"))
+        end)
+    end
 end
 
-function InteractionSystem:StartGUIMonitoring()
+function GUIMonitor:StartGUIMonitoring()
     spawn(function()
-        while AICore.Enabled do
-            wait(3) -- Check every 3 seconds
-            
-            local currentTime = tick()
-            if currentTime - self.LastGUICheck < 2 then
-                continue
-            end
+        while true do
+            wait(5) -- Check every 5 seconds
             
             for _, gui in ipairs(PlayerGui:GetChildren()) do
                 if gui:IsA("ScreenGui") and gui.Enabled and not self.TrackedGUIs[gui.Name] then
-                    self.TrackedGUIs[gui.Name] = currentTime
+                    self.TrackedGUIs[gui.Name] = tick()
                     
-                    SmartLogger:Log("MEDIUM", "GUI_SHOWN", 
-                        string.format("🖼️ %s appeared", gui.Name))
+                    -- Local AI analysis
+                    local analysis = LocalAI:AnalyzeGUI({name = gui.Name})
                     
-                    AICore:QueueRequest("report_interaction", {
-                        type = "gui_shown",
-                        name = gui.Name,
-                        visible = gui.Enabled
-                    }, 2)
+                    if analysis then
+                        LocalLogger:Log("HIGH", "TARGET_GUI", 
+                            string.format("🎯 %s (Score: %d)", gui.Name, analysis.interest_score))
+                    else
+                        LocalLogger:Log("MEDIUM", "GUI_SHOWN", 
+                            string.format("🖼️ %s appeared", gui.Name))
+                    end
+                    
+                    LocalLogger.Stats.guis_tracked = LocalLogger.Stats.guis_tracked + 1
                 end
             end
-            
-            self.LastGUICheck = currentTime
         end
     end)
 end
 
 -- ═══════════════════════════════════════════════════════════════════════════════════════════════════════════
--- 🎮 GLOBAL API & INITIALIZATION
+-- 🎮 ENHANCED GLOBAL API & COMMANDS
 -- ═══════════════════════════════════════════════════════════════════════════════════════════════════════════
 
 local function InitializeUltimateRspy()
-    SmartLogger:Log("CRITICAL", "STARTUP", "🚀 Initializing Ultimate AI-Powered Rspy V3.0...")
+    LocalLogger:Log("CRITICAL", "STARTUP", "🚀 Initializing Ultimate Local Rspy V3.5...")
     
     -- Initialize all systems
-    AICore:Initialize()
     RemoteHunter:Initialize()
-    InteractionSystem:Initialize()
+    ScriptHunter:Initialize() 
+    GUIMonitor:Initialize()
     
-    -- Start smart log flushing
+    -- Start dashboard updates
     spawn(function()
         while true do
-            wait(15)
-            SmartLogger:FlushToAI()
+            wait(60) -- Every minute
+            LocalLogger:ShowDashboard()
         end
     end)
     
-    SmartLogger:Log("CRITICAL", "SUCCESS", "🔥 Ultimate Rspy V3.0 fully operational!")
+    LocalLogger:Log("CRITICAL", "SUCCESS", "🔥 Ultimate Local Rspy V3.5 fully operational!")
 end
 
 -- Enhanced Global API
-_G.UltimateRspyV3 = {
-    SmartLogger = SmartLogger,
-    AICore = AICore,
+_G.UltimateLocalRspy = {
+    LocalLogger = LocalLogger,
+    LocalAI = LocalAI,
     RemoteHunter = RemoteHunter,
-    InteractionSystem = InteractionSystem,
+    ScriptHunter = ScriptHunter,
+    GUIMonitor = GUIMonitor,
     
-    -- AI Chat Functions
-    ChatWithAI = function(message)
-        if not AICore.ConnectionStatus then
-            SmartLogger:Log("HIGH", "AI_CHAT", "❌ AI not connected!")
-            return
-        end
-        
-        SmartLogger:Log("HIGH", "AI_CHAT", "💬 Sending: " .. message)
-        AICore:QueueRequest("chat", {
-            message = message,
-            context = "roblox_game",
-            player = Player.Name,
-            timestamp = tick()
-        }, 5)
-        
-        SmartLogger:Log("HIGH", "AI_CHAT", "📨 Message sent to AI! Check terminal for response.")
+    -- Dashboard & Analysis
+    ShowDashboard = function()
+        LocalLogger:ShowDashboard()
     end,
     
-    -- Quick commands
-    Ask = function(question)
-        _G.UltimateRspyV3.ChatWithAI(question)
+    ShowAIReport = function()
+        local report = LocalAI:GenerateReport()
+        print("\n" .. report)
     end,
     
-    -- Deep Analysis
-    DeepScanNow = function()
-        SmartLogger:Log("HIGH", "MANUAL_SCAN", "🔍 Starting manual deep scan...")
-        local snapshot = AICore:CaptureDEXSnapshot()
-        if snapshot then
-            AICore:QueueRequest("analyze_dex", snapshot, 5)
-            SmartLogger:Log("HIGH", "MANUAL_SCAN", "📊 Deep scan data sent to AI!")
+    -- Vulnerability Analysis
+    ShowVulnerabilities = function()
+        LocalLogger:Log("INFO", "VULNS", "🔥 VULNERABILITY REPORT:")
+        for i, vuln in ipairs(LocalAI.AnalysisResults.vulnerabilities) do
+            print(string.format("%d. [%s] %s: %s", i, vuln.severity, vuln.type, vuln.details))
         end
     end,
     
-    -- AI Status
-    AIStatus = function()
-        local queueSize = #AICore.RequestQueue
-        local relevantLogs = #SmartLogger.AIRelevant
-        
-        SmartLogger:Log("HIGH", "AI_STATUS", string.format(
-            "🤖 Connected: %s | Queue: %d | AI Logs: %d | Scripts Found: %d",
-            AICore.ConnectionStatus and "✅" or "❌",
-            queueSize, relevantLogs, 
-            table.getn and table.getn(AICore.ScriptCache) or 0
-        ))
-    end,
-    
-    -- Toggle modes
-    SetVerbose = function(enabled)
-        SmartLogger.SilentMode = not enabled
-        SmartLogger:Log("HIGH", "MODE", 
-            string.format("🔊 Verbose logging: %s", enabled and "ON" or "OFF"))
-    end,
-    
-    -- Force send all data
-    SendEverything = function()
-        SmartLogger:Log("HIGH", "FORCE_SEND", "📤 Sending all data to AI...")
-        SmartLogger:FlushToAI()
-        local snapshot = AICore:CaptureDEXSnapshot()
-        if snapshot then
-            AICore:QueueRequest("full_analysis", snapshot, 5)
+    ShowExploitableRemotes = function()
+        LocalLogger:Log("INFO", "EXPLOITS", "🎯 EXPLOITABLE REMOTES:")
+        for i, remote in ipairs(LocalAI.AnalysisResults.exploitable_remotes) do
+            print(string.format("%d. [%s] %s - %s", i, remote.risk_level, remote.name, remote.description))
+            if #remote.exploit_methods > 0 then
+                for j, method in ipairs(remote.exploit_methods) do
+                    print(string.format("   • %s", method))
+                end
+            end
         end
-        SmartLogger:Log("HIGH", "FORCE_SEND", "✅ Complete data dump sent to AI!")
     end,
     
-    -- Show available commands
+    ShowInterestingScripts = function()
+        LocalLogger:Log("INFO", "SCRIPTS", "📜 INTERESTING SCRIPTS:")
+        for i, script in ipairs(LocalAI.AnalysisResults.interesting_scripts) do
+            print(string.format("%d. %s (%d chars, Risk: %d)", i, script.name, script.size, script.risk_score))
+            for j, pattern in ipairs(script.patterns) do
+                print(string.format("   • %s", pattern))
+            end
+        end
+    end,
+    
+    -- Remote Testing
+    TestRemote = function(remoteName, ...)
+        local args = {...}
+        LocalLogger:Log("HIGH", "TEST", string.format("🧪 Testing remote: %s with args: %s", remoteName, table.concat(args, ", ")))
+        
+        for _, container in ipairs({ReplicatedStorage, workspace}) do
+            for _, obj in ipairs(container:GetDescendants()) do
+                if obj.Name == remoteName and obj:IsA("RemoteEvent") then
+                    pcall(function()
+                        obj:FireServer(unpack(args))
+                        LocalLogger:Log("SUCCESS", "TEST", "✅ Remote fired successfully")
+                    end)
+                    return
+                elseif obj.Name == remoteName and obj:IsA("RemoteFunction") then
+                    pcall(function()
+                        local result = obj:InvokeServer(unpack(args))
+                        LocalLogger:Log("SUCCESS", "TEST", "✅ Remote invoked, result: " .. tostring(result))
+                    end)
+                    return
+                end
+            end
+        end
+        
+        LocalLogger:Log("HIGH", "TEST", "❌ Remote not found: " .. remoteName)
+    end,
+    
+    -- Statistics
+    ShowStats = function()
+        LocalLogger:ShowDashboard()
+    end,
+    
+    -- Search functions
+    FindRemote = function(pattern)
+        LocalLogger:Log("INFO", "SEARCH", "🔍 Searching for remotes matching: " .. pattern)
+        local found = {}
+        for obj, data in pairs(RemoteHunter.TrackedRemotes) do
+            if data.name:lower():find(pattern:lower()) then
+                table.insert(found, data.name)
+            end
+        end
+        
+        if #found > 0 then
+            LocalLogger:Log("SUCCESS", "SEARCH", "✅ Found " .. #found .. " matching remotes:")
+            for i, name in ipairs(found) do
+                print(string.format("  %d. %s", i, name))
+            end
+        else
+            LocalLogger:Log("HIGH", "SEARCH", "❌ No remotes found matching: " .. pattern)
+        end
+        
+        return found
+    end,
+    
+    -- Help system
     Help = function()
-        SmartLogger:Log("HIGH", "HELP", "🚀 UltimateRspyV3 Commands:")
-        SmartLogger:Log("HIGH", "HELP", "• ChatWithAI('message') or Ask('question') - Chat with AI")
-        SmartLogger:Log("HIGH", "HELP", "• AIStatus() - Check AI connection and stats") 
-        SmartLogger:Log("HIGH", "HELP", "• DeepScanNow() - Force immediate deep scan")
-        SmartLogger:Log("HIGH", "HELP", "• SendEverything() - Send all data to AI")
-        SmartLogger:Log("HIGH", "HELP", "• SetVerbose(true/false) - Toggle verbose logging")
-        SmartLogger:Log("HIGH", "HELP", "💡 AI analyzes everything automatically!")
+        LocalLogger:Log("INFO", "HELP", "🚀 Ultimate Local Rspy V3.5 Commands:")
+        LocalLogger:Log("INFO", "HELP", "• ShowDashboard() - Show live dashboard")
+        LocalLogger:Log("INFO", "HELP", "• ShowAIReport() - Show AI analysis report") 
+        LocalLogger:Log("INFO", "HELP", "• ShowVulnerabilities() - List all vulnerabilities")
+        LocalLogger:Log("INFO", "HELP", "• ShowExploitableRemotes() - List exploitable remotes")
+        LocalLogger:Log("INFO", "HELP", "• ShowInterestingScripts() - List interesting scripts")
+        LocalLogger:Log("INFO", "HELP", "• TestRemote(name, args...) - Test a remote")
+        LocalLogger:Log("INFO", "HELP", "• FindRemote(pattern) - Search for remotes")
+        LocalLogger:Log("INFO", "HELP", "💡 All analysis runs automatically in background!")
     end
 }
 
 -- Initialize system
 InitializeUltimateRspy()
 
--- Success messages (minimal)
-SmartLogger:Log("CRITICAL", "READY", "🎉 ULTIMATE AI-POWERED RSPY V3.0 READY!")
-SmartLogger:Log("CRITICAL", "READY", "💬 Use _G.UltimateRspyV3.Ask('your question') for AI chat!")
-SmartLogger:Log("CRITICAL", "READY", "🧠 AI monitoring: DEX, Scripts, Remotes, Interactions!")
+-- Success messages
+LocalLogger:Log("CRITICAL", "READY", "🎉 ULTIMATE LOCAL RSPY V3.5 READY!")
+LocalLogger:Log("CRITICAL", "READY", "💬 Use _G.UltimateLocalRspy.Help() for commands!")
+LocalLogger:Log("CRITICAL", "READY", "🧠 Local AI analyzing everything automatically!")
+LocalLogger:Log("SUCCESS", "NO_HTTP", "✅ No HttpService needed - Pure local analysis!")
 
--- Initial AI connection test
+-- Show initial dashboard after 5 seconds
 spawn(function()
-    wait(2)
-    if HttpService.HttpEnabled then
-        SmartLogger:Log("HIGH", "CONNECTION_TEST", "🔧 Testing AI connection...")
-        AICore:HealthCheck()
-    else
-        SmartLogger:Log("CRITICAL", "HTTP_WARNING", "⚠️ Enable HttpService for AI features!")
-    end
+    wait(5)
+    LocalLogger:ShowDashboard()
     
     wait(3)
-    SmartLogger:Log("HIGH", "READY", "💡 Try: _G.UltimateRspyV3.Ask('What can you see in this game?')")
+    LocalLogger:Log("HIGH", "HINT", "💡 Try: _G.UltimateLocalRspy.ShowExploitableRemotes()")
 end)
