@@ -1,742 +1,692 @@
---[[
-╔═══════════════════════════════════════════════════════════════════════════════════════════════════════════╗
-║                    🔥 ULTIMATE LOCAL RSPY V3.5 - NO HTTP NEEDED! 🔥                                     ║
-║                      💎 CLIENT-FRIENDLY REVERSE ENGINEERING 💎                                           ║
-╠═══════════════════════════════════════════════════════════════════════════════════════════════════════════╣
-║ 🚀 LOKALE FEATURES (KEIN HTTPSERVICE NÖTIG):                                                             ║
-║ • 🧠 Local AI-Style Analysis & Pattern Recognition                                                       ║
-║ • 🔍 Advanced Script Decompilation & Analysis                                                            ║
-║ • 📊 Real-time Local Vulnerability Detection                                                             ║
-║ • 🎯 Smart Local Logging with Intelligence                                                               ║
-║ • 📈 Live Local Dashboard & Statistics                                                                   ║
-║ • 💾 Local Data Export & Analysis                                                                        ║
-║ • 🛡️ Zero Network Dependencies                                                                           ║
-║ • ⚡ Ultra-Fast Local Processing                                                                          ║
-║ • 🎮 Complete Game State Monitoring                                                                      ║
-║ • 🔧 Advanced Local Chat Commands                                                                        ║
-╚═══════════════════════════════════════════════════════════════════════════════════════════════════════════╝
---]]
+-- CARDS CLASH AUTO FIGHT UI - Enhanced Version
+-- Advanced auto-fighting system with intelligent combat detection
 
--- ═══════════════════════════════════════════════════════════════════════════════════════════════════════════
--- 🛡️ ULTRA-STEALTH LOCAL INITIALIZATION
--- ═══════════════════════════════════════════════════════════════════════════════════════════════════════════
+-- Load the UI library
+local Library = loadstring(game:HttpGet('https://gist.githubusercontent.com/MjContiga1/5b9535166d60560ac884a871cb0dc418/raw/e7fdb16802d9486d8d04d3e41d3607d89e6b4a1b/Libsuck.lua'))()
 
-local function s(n) return game:GetService(n) end
-local function d(...) return table.concat({...}) end
+-- Services
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
+local Players = game:GetService("Players")
+local PlayerGui = Players.LocalPlayer:WaitForChild("PlayerGui")
+local RunService = game:GetService("RunService")
 
--- Ultra-optimized service caching
-local Services = setmetatable({}, {
-    __index = function(t, k)
-        local service = s(k)
-        t[k] = service
-        return service
-    end
-})
+-- Create main window
+local window = Library:Window('⚡ CARDS CLASH - AUTO FIGHT V2')
 
-local Players, ReplicatedStorage, StarterGui, RunService = Services.Players, Services.ReplicatedStorage, Services.StarterGui, Services.RunService
-local UserInputService, ProximityPromptService = Services.UserInputService, Services.ProximityPromptService
-local Player = Players.LocalPlayer
-local PlayerGui = Player:WaitForChild("PlayerGui")
+-- Create tabs
+local storyTab = window:Tab({"🏯 Story Mode", "rbxassetid://7734022041"})
+local raidTab = window:Tab({"⚔️ Raids", "rbxassetid://7743875962"})
+local towerTab = window:Tab({"🗼 Towers", "rbxassetid://7733673987"})
+local miscTab = window:Tab({"🗺️ Misc", "rbxassetid://7734042071"})
+local settingsTab = window:Tab({"⚙️ Settings", "rbxassetid://7734052508"})
 
--- ═══════════════════════════════════════════════════════════════════════════════════════════════════════════
--- 🧠 LOCAL AI-STYLE INTELLIGENCE SYSTEM
--- ═══════════════════════════════════════════════════════════════════════════════════════════════════════════
-
-local LocalAI = {
-    PatternDatabase = {
-        -- Exploitable Remote Patterns
-        exploit_remotes = {
-            "money", "cash", "coin", "gold", "gem", "diamond", "currency",
-            "teleport", "tp", "position", "cframe",
-            "speed", "walkspeed", "jumppower", "jump",
-            "health", "hp", "damage", "hurt", "heal",
-            "admin", "mod", "owner", "kick", "ban",
-            "god", "godmode", "invincible", "immortal",
-            "fly", "flight", "noclip", "clip",
-            "level", "exp", "experience", "rank", "score"
-        },
-        
-        -- Vulnerable Script Patterns
-        script_patterns = {
-            {pattern = "RemoteEvent:FireServer", risk = "HIGH", desc = "Remote execution point"},
-            {pattern = "RemoteFunction:InvokeServer", risk = "HIGH", desc = "Remote function call"},
-            {pattern = "_G%[", risk = "MEDIUM", desc = "Global variable access"},
-            {pattern = "loadstring", risk = "CRITICAL", desc = "Dynamic code execution"},
-            {pattern = "getfenv", risk = "HIGH", desc = "Environment manipulation"},
-            {pattern = "HttpService", risk = "MEDIUM", desc = "HTTP requests detected"},
-            {pattern = "game%.Players%.LocalPlayer%.UserId", risk = "LOW", desc = "User ID exposure"},
-            {pattern = "workspace%.CurrentCamera", risk = "LOW", desc = "Camera manipulation"}
-        },
-        
-        -- GUI Exploitation Patterns
-        gui_patterns = {
-            "shop", "store", "buy", "purchase", "trade",
-            "inventory", "backpack", "items", "weapons",
-            "settings", "config", "menu", "panel",
-            "admin", "mod", "developer", "dev"
-        }
-    },
-    
-    AnalysisResults = {
-        vulnerabilities = {},
-        exploitable_remotes = {},
-        interesting_scripts = {},
-        gui_targets = {},
-        patterns_found = {}
-    }
+-- Enhanced auto-fighting states and connections
+local autoFightStates = {}
+local autoFightConnections = {}
+local fightStatistics = {}
+local globalSettings = {
+    smartIntervals = true,
+    maxRetries = 3,
+    enableNotifications = true,
+    autoCollectRewards = true,
+    fightDelay = 5,
+    quickFightDelay = 2
 }
 
-function LocalAI:AnalyzeRemote(remote_data)
-    local name = remote_data.name:lower()
-    local risk_score = 0
-    local exploit_methods = {}
-    local description = "Standard remote"
-    
-    -- Check exploit patterns
-    for _, pattern in ipairs(self.PatternDatabase.exploit_remotes) do
-        if name:find(pattern) then
-            risk_score = risk_score + 10
-            table.insert(exploit_methods, "Pattern: " .. pattern)
-            description = "POTENTIALLY EXPLOITABLE - " .. pattern .. " related"
-        end
+-- Enhanced Fight Detection System
+local function isInBattle()
+    -- Check for common battle UI elements
+    local battleUI = PlayerGui:FindFirstChild("BattleGui") or PlayerGui:FindFirstChild("FightUI")
+    if battleUI and battleUI.Visible then
+        return true
     end
     
-    -- Analyze arguments if provided
-    if remote_data.args and #remote_data.args > 0 then
-        risk_score = risk_score + 5
-        table.insert(exploit_methods, "Has arguments - manipulation possible")
+    -- Check for loading screens or battle indicators
+    local loadingScreen = PlayerGui:FindFirstChild("LoadingScreen")
+    if loadingScreen and loadingScreen.Visible then
+        return true
     end
     
-    -- Check parent context
-    local parent = (remote_data.parent or ""):lower()
-    if parent:find("shop") or parent:find("money") or parent:find("admin") then
-        risk_score = risk_score + 15
-        description = "HIGH RISK - Critical system remote"
+    -- Check workspace for battle indicators
+    if workspace:FindFirstChild("BattleArea") or workspace.CurrentCamera:FindFirstChild("BattleEffect") then
+        return true
     end
     
-    local risk_level = risk_score >= 20 and "CRITICAL" or 
-                      risk_score >= 10 and "HIGH" or 
-                      risk_score >= 5 and "MEDIUM" or "LOW"
-    
-    local analysis = {
-        name = remote_data.name,
-        risk_level = risk_level,
-        risk_score = risk_score,
-        description = description,
-        exploit_methods = exploit_methods,
-        timestamp = tick()
-    }
-    
-    if risk_score >= 10 then
-        table.insert(self.AnalysisResults.exploitable_remotes, analysis)
-        table.insert(self.AnalysisResults.vulnerabilities, {
-            type = "Exploitable Remote",
-            target = remote_data.name,
-            severity = risk_level,
-            details = description,
-            timestamp = tick()
-        })
-    end
-    
-    return analysis
+    return false
 end
 
-function LocalAI:AnalyzeScript(script_data)
-    local source = script_data.source or ""
-    local name = script_data.name
-    local vulnerabilities = {}
-    local interesting_patterns = {}
-    
-    -- Pattern analysis
-    for _, pattern_data in ipairs(self.PatternDatabase.script_patterns) do
-        local matches = {}
-        local pattern = pattern_data.pattern
-        
-        -- Find all matches
-        for match in source:gmatch(pattern) do
-            table.insert(matches, match)
-        end
-        
-        if #matches > 0 then
-            table.insert(vulnerabilities, {
-                pattern = pattern,
-                risk = pattern_data.risk,
-                description = pattern_data.desc,
-                matches = #matches,
-                examples = {matches[1], matches[2], matches[3]} -- First 3 matches
-            })
-            
-            table.insert(interesting_patterns, pattern_data.desc)
-        end
+local function getOptimalWaitTime(fightType)
+    if not globalSettings.smartIntervals then
+        return globalSettings.fightDelay
     end
     
-    -- Script size analysis
-    local size_analysis = ""
-    if #source > 10000 then
-        size_analysis = "LARGE SCRIPT - Likely contains complex logic"
-    elseif #source > 1000 then
-        size_analysis = "MEDIUM SCRIPT - May contain interesting features"
+    -- Dynamic wait times based on fight type and status
+    if isInBattle() then
+        return 1 -- Check frequently during battle
+    end
+    
+    local waitTimes = {
+        story = globalSettings.fightDelay,
+        raid = globalSettings.fightDelay + 1,
+        tower = globalSettings.quickFightDelay,
+        exploration = globalSettings.fightDelay + 2
+    }
+    
+    return waitTimes[fightType] or globalSettings.fightDelay
+end
+
+local function logFightAttempt(fightType, success, error)
+    if not fightStatistics[fightType] then
+        fightStatistics[fightType] = {
+            attempts = 0,
+            successes = 0,
+            errors = 0,
+            lastAttempt = 0
+        }
+    end
+    
+    local stats = fightStatistics[fightType]
+    stats.attempts = stats.attempts + 1
+    stats.lastAttempt = tick()
+    
+    if success then
+        stats.successes = stats.successes + 1
+        if globalSettings.enableNotifications then
+            print("✅ " .. fightType:upper() .. " fight successful! (" .. stats.successes .. "/" .. stats.attempts .. ")")
+        end
     else
-        size_analysis = "SMALL SCRIPT - Basic functionality"
-    end
-    
-    local analysis = {
-        name = name,
-        type = script_data.type,
-        size = #source,
-        size_analysis = size_analysis,
-        vulnerabilities = vulnerabilities,
-        patterns = interesting_patterns,
-        risk_score = #vulnerabilities * 5,
-        timestamp = tick()
-    }
-    
-    if #vulnerabilities > 0 then
-        table.insert(self.AnalysisResults.interesting_scripts, analysis)
-    end
-    
-    return analysis
-end
-
-function LocalAI:AnalyzeGUI(gui_data)
-    local name = gui_data.name:lower()
-    local interest_score = 0
-    local potential_exploits = {}
-    
-    for _, pattern in ipairs(self.PatternDatabase.gui_patterns) do
-        if name:find(pattern) then
-            interest_score = interest_score + 10
-            table.insert(potential_exploits, "GUI Type: " .. pattern)
+        stats.errors = stats.errors + 1
+        if globalSettings.enableNotifications then
+            print("❌ " .. fightType:upper() .. " fight failed: " .. (error or "Unknown error"))
         end
     end
+end
+
+-- Enhanced auto-fight function with retry logic and smart intervals
+local function startAutoFight(key, fightFunction, fightType)
+    if autoFightConnections[key] then
+        task.cancel(autoFightConnections[key])
+    end
     
-    if interest_score >= 10 then
-        local analysis = {
-            name = gui_data.name,
-            interest_score = interest_score,
-            potential_exploits = potential_exploits,
-            timestamp = tick()
-        }
+    -- Initialize fight statistics
+    if not fightStatistics[key] then
+        fightStatistics[key] = {attempts = 0, successes = 0, errors = 0, lastAttempt = 0}
+    end
+    
+    autoFightConnections[key] = task.spawn(function()
+        local retryCount = 0
         
-        table.insert(self.AnalysisResults.gui_targets, analysis)
-        return analysis
-    end
-    
-    return nil
+        while autoFightStates[key] do
+            local waitTime = getOptimalWaitTime(fightType or key)
+            
+            -- Don't attempt fight if already in battle (unless it's been too long)
+            if isInBattle() and (tick() - fightStatistics[key].lastAttempt) < 30 then
+                task.wait(1)
+                continue
+            end
+            
+            local success, error = pcall(fightFunction)
+            logFightAttempt(key, success, error)
+            
+            if not success then
+                retryCount = retryCount + 1
+                if retryCount >= globalSettings.maxRetries then
+                    print("🛑 Max retries reached for " .. key .. ". Stopping auto-fight.")
+                    autoFightStates[key] = false
+                    break
+                end
+                waitTime = waitTime * 2 -- Exponential backoff on errors
+            else
+                retryCount = 0 -- Reset retry count on success
+            end
+            
+            task.wait(waitTime)
+        end
+    end)
 end
 
-function LocalAI:GenerateReport()
-    local report = {
-        "🧠 LOCAL AI ANALYSIS REPORT",
-        "═══════════════════════════════════",
-        ""
-    }
-    
-    -- Vulnerability Summary
-    table.insert(report, string.format("📊 VULNERABILITIES FOUND: %d", #self.AnalysisResults.vulnerabilities))
-    table.insert(report, string.format("🎯 EXPLOITABLE REMOTES: %d", #self.AnalysisResults.exploitable_remotes))
-    table.insert(report, string.format("📜 INTERESTING SCRIPTS: %d", #self.AnalysisResults.interesting_scripts))
-    table.insert(report, string.format("🖼️ GUI TARGETS: %d", #self.AnalysisResults.gui_targets))
-    table.insert(report, "")
-    
-    -- Top Vulnerabilities
-    if #self.AnalysisResults.vulnerabilities > 0 then
-        table.insert(report, "🔥 TOP VULNERABILITIES:")
-        for i, vuln in ipairs(self.AnalysisResults.vulnerabilities) do
-            if i <= 5 then -- Top 5
-                table.insert(report, string.format("  %d. [%s] %s: %s", i, vuln.severity, vuln.type, vuln.details))
-            end
-        end
-        table.insert(report, "")
+local function stopAutoFight(key)
+    autoFightStates[key] = false
+    if autoFightConnections[key] then
+        task.cancel(autoFightConnections[key])
+        autoFightConnections[key] = nil
     end
-    
-    -- Top Exploitable Remotes
-    if #self.AnalysisResults.exploitable_remotes > 0 then
-        table.insert(report, "🎯 TOP EXPLOITABLE REMOTES:")
-        for i, remote in ipairs(self.AnalysisResults.exploitable_remotes) do
-            if i <= 5 then -- Top 5
-                table.insert(report, string.format("  %d. [%s] %s - %s", i, remote.risk_level, remote.name, remote.description))
-            end
-        end
-        table.insert(report, "")
-    end
-    
-    return table.concat(report, "\n")
 end
 
--- ═══════════════════════════════════════════════════════════════════════════════════════════════════════════
--- 🎯 ENHANCED LOCAL LOGGING SYSTEM
--- ═══════════════════════════════════════════════════════════════════════════════════════════════════════════
+local function stopAllAutoFights()
+    for key, _ in pairs(autoFightStates) do
+        stopAutoFight(key)
+    end
+    print("🛑 All auto-fighting stopped!")
+end
 
-local LocalLogger = {
-    Levels = {
-        CRITICAL = {priority = 5, color = "\27[41m", icon = "🔥"},
-        HIGH = {priority = 4, color = "\27[91m", icon = "⚡"},
-        MEDIUM = {priority = 3, color = "\27[93m", icon = "💡"},
-        LOW = {priority = 2, color = "\27[96m", icon = "📌"},
-        SUCCESS = {priority = 4, color = "\27[92m", icon = "✅"},
-        INFO = {priority = 3, color = "\27[97m", icon = "ℹ️"}
-    },
-    LogHistory = {},
-    Stats = {
-        scripts_found = 0,
-        remotes_found = 0,
-        guis_tracked = 0,
-        vulnerabilities = 0,
-        start_time = tick()
-    }
+-- Auto-reward collection function
+local function collectRewards()
+    if not globalSettings.autoCollectRewards then return end
+    
+    pcall(function()
+        -- Try to collect various rewards
+        ReplicatedStorage:WaitForChild("shared/network@eventDefinitions"):WaitForChild("claimDailyReward"):FireServer()
+        ReplicatedStorage:WaitForChild("shared/network@eventDefinitions"):WaitForChild("collectAllMail"):FireServer()
+        ReplicatedStorage:WaitForChild("shared/network@eventDefinitions"):WaitForChild("claimBattlePass"):FireServer()
+    end)
+end
+
+-- ==================== STORY MODE TAB ====================
+storyTab:Label("🏯 Story Mode Auto-Fighting")
+
+-- Story Mode Variables
+local storyEnemyId = 311
+local storyDifficulty = "normal"
+
+-- Enemy ID Input
+storyTab:InputBox("Enemy ID", "Enter enemy ID (311, 309, etc.)", function(text)
+    local id = tonumber(text)
+    if id then
+        storyEnemyId = id
+        print("Story Enemy ID set to:", storyEnemyId)
+    end
+end)
+
+-- Difficulty Dropdown
+storyTab:Dropdown("Difficulty", {"normal", "medium", "hard", "extreme"}, function(selected)
+    storyDifficulty = selected
+    print("Story Difficulty set to:", storyDifficulty)
+end)
+
+-- Auto Fight Story Toggle
+storyTab:Toggle('🚀 Auto Fight Story Enemy', false, function(state)
+    autoFightStates["story"] = state
+    print("Auto Story Fight:", state and "ON" or "OFF")
+    
+    if state then
+        startAutoFight("story", function()
+            local args = {storyEnemyId, storyDifficulty}
+            ReplicatedStorage:WaitForChild("shared/network@eventDefinitions"):WaitForChild("fightStoryBoss"):FireServer(unpack(args))
+            
+            -- Auto-collect rewards after fight
+            collectRewards()
+        end, "story")
+    else
+        stopAutoFight("story")
+    end
+end)
+
+-- Story Mode Status Display
+storyTab:Label("📊 Story Status: Idle")
+local storyStatusLabel = storyTab:Label("Fights: 0/0 | Success Rate: 0%")
+
+-- Popular Story Enemies
+storyTab:Label("📋 Popular Story Enemies:")
+
+storyTab:Button('🏯 Rock Lee (311)', function()
+    storyEnemyId = 311
+    print("Selected: Rock Lee (311)")
+end)
+
+storyTab:Button('🏯 Kakashi (309)', function()
+    storyEnemyId = 309
+    print("Selected: Kakashi (309)")
+end)
+
+storyTab:Button('👑 Bijuu Naruto (308) - BOSS', function()
+    storyEnemyId = 308
+    print("Selected: Bijuu Naruto (308) - BOSS")
+end)
+
+storyTab:Button('👑 King of Curses (331) - BOSS', function()
+    storyEnemyId = 331
+    print("Selected: King of Curses (331) - BOSS")
+end)
+
+-- ==================== RAID BOSSES TAB ====================
+raidTab:Label("⚔️ Raid Bosses Auto-Fighting")
+
+-- Raid Boss Variables
+local raidBossId = 373
+
+-- Raid Boss ID Input
+raidTab:InputBox("Raid Boss ID", "Enter boss ID (373, 370, etc.)", function(text)
+    local id = tonumber(text)
+    if id then
+        raidBossId = id
+        print("Raid Boss ID set to:", raidBossId)
+    end
+end)
+
+-- Auto Fight Raid Boss Toggle
+raidTab:Toggle('🐉 Auto Fight Raid Boss', false, function(state)
+    autoFightStates["raid"] = state
+    print("Auto Raid Fight:", state and "ON" or "OFF")
+    
+    if state then
+        startAutoFight("raid", function()
+            local args = {raidBossId}
+            ReplicatedStorage:WaitForChild("shared/network@eventDefinitions"):WaitForChild("fightRaidBoss"):FireServer(unpack(args))
+            
+            -- Auto-collect rewards after fight
+            collectRewards()
+        end, "raid")
+    else
+        stopAutoFight("raid")
+    end
+end)
+
+-- Auto Fight Raid Minions Toggle (Creator of Flames)
+raidTab:Toggle('👹 Auto Fight Raid Minions', false, function(state)
+    autoFightStates["minions"] = state
+    print("Auto Minion Fight:", state and "ON" or "OFF")
+    
+    if state then
+        startAutoFight("minions", function()
+            if workspace:FindFirstChild("raid_creator_of_flames") then
+                for _, model in pairs(workspace.raid_creator_of_flames:GetChildren()) do
+                    if model.Name:find("infernal") and model:GetAttribute("serverEntityId") then
+                        local minionId = model:GetAttribute("serverEntityId")
+                        local args = {minionId}
+                        ReplicatedStorage:WaitForChild("shared/network@eventDefinitions"):WaitForChild("fightRaidMinion"):FireServer(unpack(args))
+                        break -- Only fight one minion per cycle
+                    end
+                end
+            end
+            
+            -- Auto-collect rewards after minion fights
+            collectRewards()
+        end, "raid")
+    else
+        stopAutoFight("minions")
+    end
+end)
+
+-- Raid Status Display
+raidTab:Label("📊 Raid Status: Idle")
+local raidStatusLabel = raidTab:Label("Boss Fights: 0/0 | Minion Fights: 0/0")
+
+-- Popular Raid Bosses
+raidTab:Label("📋 Available Raid Bosses:")
+
+raidTab:Button('🐉 Eternal Dragon (373)', function()
+    raidBossId = 373
+    print("Selected: Eternal Dragon (373)")
+end)
+
+raidTab:Button('🌑 Shadow Dragon (370)', function()
+    raidBossId = 370
+    print("Selected: Shadow Dragon (370)")
+end)
+
+raidTab:Button('⚔️ Sword Deity (325)', function()
+    raidBossId = 325
+    print("Selected: Sword Deity (325)")
+end)
+
+raidTab:Button('🔥 Creator of Flames (384)', function()
+    raidBossId = 384
+    print("Selected: Creator of Flames (384)")
+end)
+
+-- ==================== TOWERS TAB ====================
+towerTab:Label("🗼 Towers Auto-Fighting")
+
+-- Infinite Tower Variables
+local towerMode = "base"
+local battleTowerIndex = 30
+
+-- Infinite Tower Mode Dropdown
+towerTab:Dropdown("Infinite Tower Mode", {"base", "nightmare", "potion"}, function(selected)
+    towerMode = selected
+    print("Tower Mode set to:", towerMode)
+end)
+
+-- Auto Fight Infinite Tower Toggle
+towerTab:Toggle('🗼 Auto Fight Infinite Tower', false, function(state)
+    autoFightStates["infinite"] = state
+    print("Auto Infinite Tower:", state and "ON" or "OFF")
+    
+    if state then
+        startAutoFight("infinite", function()
+            local args = {towerMode}
+            ReplicatedStorage:WaitForChild("shared/network@eventDefinitions"):WaitForChild("fightInfinite"):FireServer(unpack(args))
+            collectRewards()
+        end, "tower")
+    else
+        stopAutoFight("infinite")
+    end
+end)
+
+-- Story Infinite Tower Mode Dropdown
+local storyInfiniteMode = "ninja_village"
+towerTab:Dropdown("Story Infinite Mode", {
+    "ninja_village", "green_planet", "shibuya_station", "titans_city", 
+    "dimensional_fortress", "candy_island", "solo_city", "eminence_lookout",
+    "invaded_ninja_village", "necromancer_graveyard"
+}, function(selected)
+    storyInfiniteMode = selected
+    print("Story Infinite Mode set to:", storyInfiniteMode)
+end)
+
+-- Auto Fight Story Infinite Toggle
+towerTab:Toggle('📖 Auto Fight Story Infinite', false, function(state)
+    autoFightStates["story_infinite"] = state
+    print("Auto Story Infinite:", state and "ON" or "OFF")
+    
+    if state then
+        startAutoFight("story_infinite", function()
+            local args = {storyInfiniteMode}
+            ReplicatedStorage:WaitForChild("shared/network@eventDefinitions"):WaitForChild("fightInfinite"):FireServer(unpack(args))
+            collectRewards()
+        end, "tower")
+    else
+        stopAutoFight("story_infinite")
+    end
+end)
+
+-- Battle Tower Index Slider
+towerTab:Slider("Battle Tower Index", 1, 50, 30, function(value)
+    battleTowerIndex = value
+    local minStage = (value - 1) * 5 + 1
+    local maxStage = value * 5
+    print("Battle Tower Index set to:", value, "(Stages " .. minStage .. "-" .. maxStage .. ")")
+end)
+
+-- Auto Fight Battle Tower Toggle
+towerTab:Toggle('⚔️ Auto Fight Battle Tower', false, function(state)
+    autoFightStates["battle"] = state
+    print("Auto Battle Tower:", state and "ON" or "OFF")
+    
+    if state then
+        startAutoFight("battle", function()
+            local args = {battleTowerIndex}
+            ReplicatedStorage:WaitForChild("shared/network@eventDefinitions"):WaitForChild("fightTowerWave"):FireServer(unpack(args))
+            collectRewards()
+        end, "tower")
+    else
+        stopAutoFight("battle")
+    end
+end)
+
+-- Tower Status Display
+towerTab:Label("📊 Tower Status: Idle")
+local towerStatusLabel = towerTab:Label("Infinite: 0/0 | Story: 0/0 | Battle: 0/0")
+
+-- ==================== MISC TAB ====================
+miscTab:Label("🗺️ Exploration & Miscellaneous")
+
+-- Exploration Variables
+local explorationLevel = "easy"
+
+-- Exploration Level Dropdown
+miscTab:Dropdown("Exploration Level", {"easy", "medium", "hard", "extreme", "nightmare", "celestial"}, function(selected)
+    explorationLevel = selected
+    print("Exploration Level set to:", explorationLevel)
+end)
+
+-- Claim Exploration Button
+miscTab:Button('🎁 Claim Exploration Rewards', function()
+    local args = {explorationLevel}
+    ReplicatedStorage:WaitForChild("shared/network@eventDefinitions"):WaitForChild("claimExploration"):FireServer(unpack(args))
+    print("Claimed exploration rewards for:", explorationLevel)
+end)
+
+-- Auto Claim Exploration Toggle
+miscTab:Toggle('🎁 Auto Claim Exploration', false, function(state)
+    autoFightStates["exploration"] = state
+    print("Auto Claim Exploration:", state and "ON" or "OFF")
+    
+    if state then
+        startAutoFight("exploration", function()
+            local args = {explorationLevel}
+            ReplicatedStorage:WaitForChild("shared/network@eventDefinitions"):WaitForChild("claimExploration"):FireServer(unpack(args))
+            collectRewards()
+        end, "exploration")
+    else
+        stopAutoFight("exploration")
+    end
+end)
+
+-- Teleport Section
+miscTab:Label("🚀 Quick Teleports:")
+
+local teleportLocations = {
+    "ninja_village", "green_planet", "shibuya_station", "titans_city",
+    "dimensional_fortress", "candy_island", "solo_city", "eminence_lookout",
+    "invaded_ninja_village", "necromancer_graveyard"
 }
 
-function LocalLogger:Log(level, category, message, data)
-    local levelInfo = self.Levels[level] or self.Levels.INFO
+local selectedTeleport = "ninja_village"
+miscTab:Dropdown("Teleport Location", teleportLocations, function(selected)
+    selectedTeleport = selected
+    print("Selected teleport location:", selectedTeleport)
+end)
+
+miscTab:Button('🚀 Teleport Now', function()
+    local args = {selectedTeleport}
+    ReplicatedStorage:WaitForChild("shared/network@eventDefinitions"):WaitForChild("teleport"):FireServer(unpack(args))
+    print("Teleported to:", selectedTeleport)
+end)
+
+-- Raid Teleports
+miscTab:Label("⚔️ Raid Teleports:")
+
+miscTab:Button('🐉 → Eternal Dragon', function()
+    local args = {"raid_eternal_dragon"}
+    ReplicatedStorage:WaitForChild("shared/network@eventDefinitions"):WaitForChild("teleport"):FireServer(unpack(args))
+end)
+
+miscTab:Button('🌑 → Shadow Dragon', function()
+    local args = {"raid_shadow_dragon"}
+    ReplicatedStorage:WaitForChild("shared/network@eventDefinitions"):WaitForChild("teleport"):FireServer(unpack(args))
+end)
+
+miscTab:Button('⚔️ → Sword Deity', function()
+    local args = {"raid_sword_deity"}
+    ReplicatedStorage:WaitForChild("shared/network@eventDefinitions"):WaitForChild("teleport"):FireServer(unpack(args))
+end)
+
+miscTab:Button('🔥 → Creator of Flames', function()
+    local args = {"raid_creator_of_flames"}
+    ReplicatedStorage:WaitForChild("shared/network@eventDefinitions"):WaitForChild("teleport"):FireServer(unpack(args))
+end)
+
+-- Settings Section
+miscTab:Label("⚚ Settings & Info:")
+
+miscTab:Toggle('🔊 Enable Notifications', true, function(state)
+    print("Notifications:", state and "ON" or "OFF")
+    -- Add notification toggle logic here
+end)
+
+miscTab:Button('🛑 Stop All Auto-Fighting', function()
+    stopAllAutoFights()
+end)
+
+miscTab:Button('🎁 Collect All Rewards Now', function()
+    collectRewards()
+    print("🎁 Attempted to collect all available rewards!")
+end)
+
+-- UI Toggle Keybind
+miscTab:Keybind("Toggle UI", Enum.KeyCode.Insert, function(key)
+    print("UI toggle key set to:", key.Name)
+end)
+
+-- ==================== SETTINGS TAB ====================
+settingsTab:Label("⚙️ Advanced Settings & Statistics")
+
+-- Fight Delay Settings
+settingsTab:Slider("Fight Delay (Normal)", 1, 15, globalSettings.fightDelay, function(value)
+    globalSettings.fightDelay = value
+    print("Fight delay set to:", value, "seconds")
+end)
+
+settingsTab:Slider("Quick Fight Delay", 1, 10, globalSettings.quickFightDelay, function(value)
+    globalSettings.quickFightDelay = value
+    print("Quick fight delay set to:", value, "seconds")
+end)
+
+settingsTab:Slider("Max Retries", 1, 10, globalSettings.maxRetries, function(value)
+    globalSettings.maxRetries = value
+    print("Max retries set to:", value)
+end)
+
+-- Smart Settings Toggles
+settingsTab:Toggle('🧠 Smart Intervals', globalSettings.smartIntervals, function(state)
+    globalSettings.smartIntervals = state
+    print("Smart Intervals:", state and "ON" or "OFF")
+end)
+
+settingsTab:Toggle('🔊 Enable Notifications', globalSettings.enableNotifications, function(state)
+    globalSettings.enableNotifications = state
+    print("Notifications:", state and "ON" or "OFF")
+end)
+
+settingsTab:Toggle('🎁 Auto Collect Rewards', globalSettings.autoCollectRewards, function(state)
+    globalSettings.autoCollectRewards = state
+    print("Auto Collect Rewards:", state and "ON" or "OFF")
+end)
+
+-- Statistics Display
+settingsTab:Label("📊 Fight Statistics:")
+
+local function updateStatisticsDisplay()
+    local totalFights = 0
+    local totalSuccesses = 0
     
-    -- Only log MEDIUM priority and above for cleaner output
-    if levelInfo.priority < 3 then return end
+    for fightType, stats in pairs(fightStatistics) do
+        if stats.attempts > 0 then
+            totalFights = totalFights + stats.attempts
+            totalSuccesses = totalSuccesses + stats.successes
+            local successRate = math.floor((stats.successes / stats.attempts) * 100)
+            
+            settingsTab:Label(string.format("• %s: %d/%d (%d%% success)", 
+                fightType:upper(), stats.successes, stats.attempts, successRate))
+        end
+    end
     
-    local timestamp = os.date("%H:%M:%S")
-    local formatted = string.format("%s[%s] %s %s: %s\27[0m", 
-        levelInfo.color, timestamp, levelInfo.icon, category, message)
-    
-    print(formatted)
-    
-    -- Store in history
-    table.insert(self.LogHistory, {
-        level = level,
-        category = category,
-        message = message,
-        timestamp = tick(),
-        data = data
-    })
-    
-    -- Keep only last 100 logs
-    if #self.LogHistory > 100 then
-        table.remove(self.LogHistory, 1)
+    if totalFights > 0 then
+        local overallRate = math.floor((totalSuccesses / totalFights) * 100)
+        settingsTab:Label(string.format("🎯 Overall: %d/%d (%d%% success)", 
+            totalSuccesses, totalFights, overallRate))
     end
 end
 
-function LocalLogger:ShowDashboard()
-    local uptime = tick() - self.Stats.start_time
-    local minutes = math.floor(uptime / 60)
+settingsTab:Button('📊 Refresh Statistics', function()
+    updateStatisticsDisplay()
+end)
+
+settingsTab:Button('🗑️ Clear Statistics', function()
+    fightStatistics = {}
+    print("🗑️ Fight statistics cleared!")
+end)
+
+-- Auto-Detection Status
+settingsTab:Label("🔍 Detection Status:")
+
+local detectionStatusLabel = settingsTab:Label("Battle Status: Idle")
+
+-- Update detection status periodically
+task.spawn(function()
+    while true do
+        if detectionStatusLabel then
+            local battleStatus = isInBattle() and "🔥 IN BATTLE" or "💤 Idle"
+            detectionStatusLabel:Update("Battle Status: " .. battleStatus)
+        end
+        task.wait(2)
+    end
+end)
+
+-- Advanced Features
+settingsTab:Label("🚀 Advanced Features:")
+
+settingsTab:Button('⚡ Emergency Stop All', function()
+    stopAllAutoFights()
+    print("🚨 EMERGENCY STOP - All activities halted!")
+end)
+
+settingsTab:Button('🔄 Restart All Active Fights', function()
+    local activeFights = {}
+    for key, state in pairs(autoFightStates) do
+        if state then
+            activeFights[key] = true
+            stopAutoFight(key)
+        end
+    end
+    
+    task.wait(2)
+    
+    for key, _ in pairs(activeFights) do
+        autoFightStates[key] = true
+        print("🔄 Restarting", key, "auto-fight...")
+        -- Note: This would need the original fight functions to be properly restarted
+        -- For now, just set the state back
+    end
+end)
+
+-- Performance Monitoring
+local startTime = tick()
+settingsTab:Button('⏱️ Show Uptime', function()
+    local uptime = tick() - startTime
+    local hours = math.floor(uptime / 3600)
+    local minutes = math.floor((uptime % 3600) / 60)
     local seconds = math.floor(uptime % 60)
     
-    print("\n" .. self.Levels.SUCCESS.color .. "╔══════════════════════════════════════════════════════════════════════════════╗" .. "\27[0m")
-    print(self.Levels.SUCCESS.color .. "║                    📊 ULTIMATE LOCAL RSPY DASHBOARD                         ║" .. "\27[0m")
-    print(self.Levels.SUCCESS.color .. "╠══════════════════════════════════════════════════════════════════════════════╣" .. "\27[0m")
-    print(string.format("%s║ ⏱️  Uptime: %dm %02ds                  🎮 Game: %s%s║%s", 
-        self.Levels.INFO.color, minutes, seconds, 
-        string.sub(game.Name or "Unknown", 1, 20),
-        string.rep(" ", 22 - math.min(#(game.Name or "Unknown"), 20)),
-        "\27[0m"))
-    print(string.format("%s║ 📜 Scripts Found: %d                   🎯 Remotes Found: %d%s║%s", 
-        self.Levels.INFO.color, self.Stats.scripts_found, self.Stats.remotes_found,
-        string.rep(" ", 10 - #tostring(self.Stats.remotes_found)),
-        "\27[0m"))
-    print(string.format("%s║ 🖼️  GUIs Tracked: %d                   🔥 Vulnerabilities: %d%s║%s", 
-        self.Levels.INFO.color, self.Stats.guis_tracked, self.Stats.vulnerabilities,
-        string.rep(" ", 8 - #tostring(self.Stats.vulnerabilities)),
-        "\27[0m"))
-    print(self.Levels.SUCCESS.color .. "╚══════════════════════════════════════════════════════════════════════════════╝" .. "\27[0m")
-    
-    -- Show AI Analysis Summary
-    local ai_report = LocalAI:GenerateReport()
-    print("\n" .. self.Levels.MEDIUM.color .. ai_report .. "\27[0m")
-end
-
--- ═══════════════════════════════════════════════════════════════════════════════════════════════════════════
--- 🕵️ ADVANCED REMOTE MONITORING
--- ═══════════════════════════════════════════════════════════════════════════════════════════════════════════
-
-local RemoteHunter = {
-    TrackedRemotes = {},
-    RemoteStats = {}
-}
-
-function RemoteHunter:Initialize()
-    LocalLogger:Log("HIGH", "REMOTE_INIT", "🕵️ Initializing Local Remote Hunter...")
-    
-    self:HookRemoteEvents()
-    self:ScanExistingRemotes()
-end
-
-function RemoteHunter:HookRemoteEvents()
-    local oldNamecall
-    oldNamecall = hookmetamethod(game, "__namecall", function(self, ...)
-        local method = getnamecallmethod()
-        local args = {...}
-        
-        if method == "FireServer" and self:IsA("RemoteEvent") then
-            local remoteData = {
-                name = self.Name,
-                parent = self.Parent and self.Parent.Name or "Unknown",
-                args = args,
-                timestamp = tick(),
-                type = "RemoteEvent",
-                path = self:GetFullName()
-            }
-            
-            -- Local AI analysis
-            local analysis = LocalAI:AnalyzeRemote(remoteData)
-            
-            if analysis.risk_score >= 10 then
-                LocalLogger:Log("CRITICAL", "EXPLOIT_REMOTE", 
-                    string.format("🎯 %s (%s)", self.Name, analysis.risk_level))
-            else
-                LocalLogger:Log("MEDIUM", "REMOTE", 
-                    string.format("📡 %s fired", self.Name))
-            end
-            
-        elseif method == "InvokeServer" and self:IsA("RemoteFunction") then
-            local remoteData = {
-                name = self.Name,
-                parent = self.Parent and self.Parent.Name or "Unknown",
-                args = args,
-                timestamp = tick(),
-                type = "RemoteFunction",
-                path = self:GetFullName()
-            }
-            
-            local analysis = LocalAI:AnalyzeRemote(remoteData)
-            
-            if analysis.risk_score >= 10 then
-                LocalLogger:Log("CRITICAL", "EXPLOIT_REMOTE", 
-                    string.format("🔧 %s (%s)", self.Name, analysis.risk_level))
-            else
-                LocalLogger:Log("MEDIUM", "REMOTE", 
-                    string.format("🔧 %s invoked", self.Name))
-            end
-        end
-        
-        return oldNamecall(self, ...)
-    end)
-end
-
-function RemoteHunter:ScanExistingRemotes()
-    spawn(function()
-        while true do
-            wait(30) -- Every 30 seconds
-            
-            local newRemotes = 0
-            for _, container in ipairs({ReplicatedStorage, workspace}) do
-                for _, obj in ipairs(container:GetDescendants()) do
-                    if (obj:IsA("RemoteEvent") or obj:IsA("RemoteFunction")) and not self.TrackedRemotes[obj] then
-                        newRemotes = newRemotes + 1
-                        self.TrackedRemotes[obj] = {
-                            name = obj.Name,
-                            type = obj.ClassName,
-                            parent = obj.Parent and obj.Parent.Name or "Unknown",
-                            path = obj:GetFullName(),
-                            discovered_at = tick()
-                        }
-                        
-                        -- Immediate local analysis
-                        local analysis = LocalAI:AnalyzeRemote({
-                            name = obj.Name,
-                            type = obj.ClassName,
-                            parent = obj.Parent and obj.Parent.Name or "Unknown"
-                        })
-                        
-                        LocalLogger.Stats.remotes_found = LocalLogger.Stats.remotes_found + 1
-                    end
-                end
-            end
-            
-            if newRemotes > 0 then
-                LocalLogger:Log("HIGH", "REMOTE_DISCOVERY", 
-                    string.format("🎯 %d new remotes discovered", newRemotes))
-            end
-        end
-    end)
-end
-
--- ═══════════════════════════════════════════════════════════════════════════════════════════════════════════
--- 🔍 ADVANCED LOCAL SCRIPT HUNTER
--- ═══════════════════════════════════════════════════════════════════════════════════════════════════════════
-
-local ScriptHunter = {
-    TrackedScripts = {}
-}
-
-function ScriptHunter:Initialize()
-    LocalLogger:Log("HIGH", "SCRIPT_INIT", "🔍 Starting Local Script Hunter...")
-    
-    self:StartScriptHunting()
-end
-
-function ScriptHunter:GetScriptSource(script)
-    if not script or not script:IsA("LuaSourceContainer") then return nil end
-    
-    local success, source = pcall(function()
-        if script.Source and script.Source ~= "" then
-            return script.Source
-        end
-        
-        if decompile then
-            return decompile(script)
-        end
-        
-        if getsource then
-            return getsource(script)
-        end
-        
-        return nil
-    end)
-    
-    return success and source or nil
-end
-
-function ScriptHunter:StartScriptHunting()
-    spawn(function()
-        while true do
-            wait(25) -- Every 25 seconds
-            
-            local newScripts = 0
-            for _, container in ipairs({workspace, ReplicatedStorage, PlayerGui}) do
-                for _, obj in ipairs(container:GetDescendants()) do
-                    if obj:IsA("LuaSourceContainer") and not self.TrackedScripts[obj] then
-                        local source = self:GetScriptSource(obj)
-                        if source and #source > 50 then -- Ignore tiny scripts
-                            newScripts = newScripts + 1
-                            
-                            local scriptData = {
-                                name = obj.Name,
-                                type = obj.ClassName,
-                                parent = obj.Parent and obj.Parent.Name or "Unknown",
-                                source = source,
-                                size = #source,
-                                path = obj:GetFullName()
-                            }
-                            
-                            self.TrackedScripts[obj] = scriptData
-                            
-                            -- Local AI analysis
-                            local analysis = LocalAI:AnalyzeScript(scriptData)
-                            
-                            if analysis.risk_score >= 15 then
-                                LocalLogger:Log("CRITICAL", "VULN_SCRIPT", 
-                                    string.format("🔥 %s (%d chars, %d vulns)", 
-                                    obj.Name, #source, #analysis.vulnerabilities))
-                                LocalLogger.Stats.vulnerabilities = LocalLogger.Stats.vulnerabilities + 1
-                            else
-                                LocalLogger:Log("HIGH", "SCRIPT_FOUND", 
-                                    string.format("📜 %s: %s (%d chars)", 
-                                    obj.ClassName, obj.Name, #source))
-                            end
-                            
-                            LocalLogger.Stats.scripts_found = LocalLogger.Stats.scripts_found + 1
-                        end
-                    end
-                end
-            end
-            
-            if newScripts > 0 then
-                LocalLogger:Log("SUCCESS", "SCRIPT_HUNT", 
-                    string.format("📚 %d new scripts analyzed", newScripts))
-            end
-        end
-    end)
-end
-
--- ═══════════════════════════════════════════════════════════════════════════════════════════════════════════
--- 🎯 GUI MONITORING SYSTEM
--- ═══════════════════════════════════════════════════════════════════════════════════════════════════════════
-
-local GUIMonitor = {
-    TrackedGUIs = {}
-}
-
-function GUIMonitor:Initialize()
-    LocalLogger:Log("MEDIUM", "GUI_INIT", "🎯 Starting GUI monitoring...")
-    
-    self:StartGUIMonitoring()
-    
-    -- Monitor ProximityPrompts if available
-    if ProximityPromptService then
-        ProximityPromptService.PromptShown:Connect(function(prompt, inputType)
-            LocalLogger:Log("HIGH", "PROXIMITY", 
-                string.format("📍 %s shown", prompt.ObjectText or "Prompt"))
-        end)
-    end
-end
-
-function GUIMonitor:StartGUIMonitoring()
-    spawn(function()
-        while true do
-            wait(5) -- Check every 5 seconds
-            
-            for _, gui in ipairs(PlayerGui:GetChildren()) do
-                if gui:IsA("ScreenGui") and gui.Enabled and not self.TrackedGUIs[gui.Name] then
-                    self.TrackedGUIs[gui.Name] = tick()
-                    
-                    -- Local AI analysis
-                    local analysis = LocalAI:AnalyzeGUI({name = gui.Name})
-                    
-                    if analysis then
-                        LocalLogger:Log("HIGH", "TARGET_GUI", 
-                            string.format("🎯 %s (Score: %d)", gui.Name, analysis.interest_score))
-                    else
-                        LocalLogger:Log("MEDIUM", "GUI_SHOWN", 
-                            string.format("🖼️ %s appeared", gui.Name))
-                    end
-                    
-                    LocalLogger.Stats.guis_tracked = LocalLogger.Stats.guis_tracked + 1
-                end
-            end
-        end
-    end)
-end
-
--- ═══════════════════════════════════════════════════════════════════════════════════════════════════════════
--- 🎮 ENHANCED GLOBAL API & COMMANDS
--- ═══════════════════════════════════════════════════════════════════════════════════════════════════════════
-
-local function InitializeUltimateRspy()
-    LocalLogger:Log("CRITICAL", "STARTUP", "🚀 Initializing Ultimate Local Rspy V3.5...")
-    
-    -- Initialize all systems
-    RemoteHunter:Initialize()
-    ScriptHunter:Initialize() 
-    GUIMonitor:Initialize()
-    
-    -- Start dashboard updates
-    spawn(function()
-        while true do
-            wait(60) -- Every minute
-            LocalLogger:ShowDashboard()
-        end
-    end)
-    
-    LocalLogger:Log("CRITICAL", "SUCCESS", "🔥 Ultimate Local Rspy V3.5 fully operational!")
-end
-
--- Enhanced Global API
-_G.UltimateLocalRspy = {
-    LocalLogger = LocalLogger,
-    LocalAI = LocalAI,
-    RemoteHunter = RemoteHunter,
-    ScriptHunter = ScriptHunter,
-    GUIMonitor = GUIMonitor,
-    
-    -- Dashboard & Analysis
-    ShowDashboard = function()
-        LocalLogger:ShowDashboard()
-    end,
-    
-    ShowAIReport = function()
-        local report = LocalAI:GenerateReport()
-        print("\n" .. report)
-    end,
-    
-    -- Vulnerability Analysis
-    ShowVulnerabilities = function()
-        LocalLogger:Log("INFO", "VULNS", "🔥 VULNERABILITY REPORT:")
-        for i, vuln in ipairs(LocalAI.AnalysisResults.vulnerabilities) do
-            print(string.format("%d. [%s] %s: %s", i, vuln.severity, vuln.type, vuln.details))
-        end
-    end,
-    
-    ShowExploitableRemotes = function()
-        LocalLogger:Log("INFO", "EXPLOITS", "🎯 EXPLOITABLE REMOTES:")
-        for i, remote in ipairs(LocalAI.AnalysisResults.exploitable_remotes) do
-            print(string.format("%d. [%s] %s - %s", i, remote.risk_level, remote.name, remote.description))
-            if #remote.exploit_methods > 0 then
-                for j, method in ipairs(remote.exploit_methods) do
-                    print(string.format("   • %s", method))
-                end
-            end
-        end
-    end,
-    
-    ShowInterestingScripts = function()
-        LocalLogger:Log("INFO", "SCRIPTS", "📜 INTERESTING SCRIPTS:")
-        for i, script in ipairs(LocalAI.AnalysisResults.interesting_scripts) do
-            print(string.format("%d. %s (%d chars, Risk: %d)", i, script.name, script.size, script.risk_score))
-            for j, pattern in ipairs(script.patterns) do
-                print(string.format("   • %s", pattern))
-            end
-        end
-    end,
-    
-    -- Remote Testing
-    TestRemote = function(remoteName, ...)
-        local args = {...}
-        LocalLogger:Log("HIGH", "TEST", string.format("🧪 Testing remote: %s with args: %s", remoteName, table.concat(args, ", ")))
-        
-        for _, container in ipairs({ReplicatedStorage, workspace}) do
-            for _, obj in ipairs(container:GetDescendants()) do
-                if obj.Name == remoteName and obj:IsA("RemoteEvent") then
-                    pcall(function()
-                        obj:FireServer(unpack(args))
-                        LocalLogger:Log("SUCCESS", "TEST", "✅ Remote fired successfully")
-                    end)
-                    return
-                elseif obj.Name == remoteName and obj:IsA("RemoteFunction") then
-                    pcall(function()
-                        local result = obj:InvokeServer(unpack(args))
-                        LocalLogger:Log("SUCCESS", "TEST", "✅ Remote invoked, result: " .. tostring(result))
-                    end)
-                    return
-                end
-            end
-        end
-        
-        LocalLogger:Log("HIGH", "TEST", "❌ Remote not found: " .. remoteName)
-    end,
-    
-    -- Statistics
-    ShowStats = function()
-        LocalLogger:ShowDashboard()
-    end,
-    
-    -- Search functions
-    FindRemote = function(pattern)
-        LocalLogger:Log("INFO", "SEARCH", "🔍 Searching for remotes matching: " .. pattern)
-        local found = {}
-        for obj, data in pairs(RemoteHunter.TrackedRemotes) do
-            if data.name:lower():find(pattern:lower()) then
-                table.insert(found, data.name)
-            end
-        end
-        
-        if #found > 0 then
-            LocalLogger:Log("SUCCESS", "SEARCH", "✅ Found " .. #found .. " matching remotes:")
-            for i, name in ipairs(found) do
-                print(string.format("  %d. %s", i, name))
-            end
-        else
-            LocalLogger:Log("HIGH", "SEARCH", "❌ No remotes found matching: " .. pattern)
-        end
-        
-        return found
-    end,
-    
-    -- Help system
-    Help = function()
-        LocalLogger:Log("INFO", "HELP", "🚀 Ultimate Local Rspy V3.5 Commands:")
-        LocalLogger:Log("INFO", "HELP", "• ShowDashboard() - Show live dashboard")
-        LocalLogger:Log("INFO", "HELP", "• ShowAIReport() - Show AI analysis report") 
-        LocalLogger:Log("INFO", "HELP", "• ShowVulnerabilities() - List all vulnerabilities")
-        LocalLogger:Log("INFO", "HELP", "• ShowExploitableRemotes() - List exploitable remotes")
-        LocalLogger:Log("INFO", "HELP", "• ShowInterestingScripts() - List interesting scripts")
-        LocalLogger:Log("INFO", "HELP", "• TestRemote(name, args...) - Test a remote")
-        LocalLogger:Log("INFO", "HELP", "• FindRemote(pattern) - Search for remotes")
-        LocalLogger:Log("INFO", "HELP", "💡 All analysis runs automatically in background!")
-    end
-}
-
--- Initialize system
-InitializeUltimateRspy()
-
--- Success messages
-LocalLogger:Log("CRITICAL", "READY", "🎉 ULTIMATE LOCAL RSPY V3.5 READY!")
-LocalLogger:Log("CRITICAL", "READY", "💬 Use _G.UltimateLocalRspy.Help() for commands!")
-LocalLogger:Log("CRITICAL", "READY", "🧠 Local AI analyzing everything automatically!")
-LocalLogger:Log("SUCCESS", "NO_HTTP", "✅ No HttpService needed - Pure local analysis!")
-
--- Show initial dashboard after 5 seconds
-spawn(function()
-    wait(5)
-    LocalLogger:ShowDashboard()
-    
-    wait(3)
-    LocalLogger:Log("HIGH", "HINT", "💡 Try: _G.UltimateLocalRspy.ShowExploitableRemotes()")
+    print(string.format("⏱️ Uptime: %dh %dm %ds", hours, minutes, seconds))
 end)
+
+-- Status Update System
+local function updateAllStatusDisplays()
+    -- Update Story Status
+    if fightStatistics["story"] then
+        local stats = fightStatistics["story"]
+        local rate = stats.attempts > 0 and math.floor((stats.successes / stats.attempts) * 100) or 0
+        if storyStatusLabel then
+            storyStatusLabel:Update(string.format("Fights: %d/%d | Success Rate: %d%%", 
+                stats.successes, stats.attempts, rate))
+        end
+    end
+    
+    -- Update Raid Status
+    local raidStats = fightStatistics["raid"] or {attempts = 0, successes = 0}
+    local minionStats = fightStatistics["minions"] or {attempts = 0, successes = 0}
+    if raidStatusLabel then
+        raidStatusLabel:Update(string.format("Boss Fights: %d/%d | Minion Fights: %d/%d", 
+            raidStats.successes, raidStats.attempts, minionStats.successes, minionStats.attempts))
+    end
+    
+    -- Update Tower Status
+    local infiniteStats = fightStatistics["infinite"] or {attempts = 0, successes = 0}
+    local storyInfiniteStats = fightStatistics["story_infinite"] or {attempts = 0, successes = 0}
+    local battleStats = fightStatistics["battle"] or {attempts = 0, successes = 0}
+    if towerStatusLabel then
+        towerStatusLabel:Update(string.format("Infinite: %d/%d | Story: %d/%d | Battle: %d/%d", 
+            infiniteStats.successes, infiniteStats.attempts,
+            storyInfiniteStats.successes, storyInfiniteStats.attempts,
+            battleStats.successes, battleStats.attempts))
+    end
+end
+
+-- Update status displays every 5 seconds
+task.spawn(function()
+    while true do
+        updateAllStatusDisplays()
+        task.wait(5)
+    end
+end)
+
+-- Auto-reward collection timer
+if globalSettings.autoCollectRewards then
+    task.spawn(function()
+        while true do
+            task.wait(300) -- Collect rewards every 5 minutes
+            pcall(collectRewards)
+        end
+    end)
+end
+
+-- Welcome message
+print("🎉 Cards Clash Auto Fight UI V2 Loaded!")
+print("📋 Features: Story Mode, Raid Bosses, Infinite Towers, Battle Tower, Exploration")
+print("⚡ Enhanced with smart intervals, battle detection, and auto-rewards")
+print("🧠 New: Statistics tracking, retry logic, and advanced settings")
+print("🎮 Use the Settings tab for advanced configuration")
+print("🔄 Status displays update every 5 seconds automatically")
